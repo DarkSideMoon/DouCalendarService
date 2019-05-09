@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DouCalendarService.Model.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -9,6 +10,7 @@ namespace DouCalendarService.Model.Events
         /// <summary>
         /// Name of event
         /// </summary>
+        [XPathLocation("/html/body/div[1]/div[4]/div/div[2]/div/div/div[1]/article[1]/h2/a")]
         public string Name { get; set; }
 
         /// <summary>
