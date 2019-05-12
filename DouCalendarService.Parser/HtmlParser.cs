@@ -3,24 +3,28 @@ using System.Linq;
 
 namespace DouCalendarService.Parser
 {
-    public class HtmlParser
+    public abstract class HtmlParser
     {
         public string Test { get; set; }
 
-        private string _url;
+        protected string _url;
+
+        protected HtmlDocument _htmlDocument;
 
         public HtmlParser(string url)
         {
             _url = url;
         }
 
-
-        public void Load(string xpath)
+        public virtual void Load()
         {
             var web = new HtmlWeb();
-            var doc = web.Load(_url);
+            _htmlDocument = web.Load(_url);
+        }
 
-            var res = doc.DocumentNode
+        public virtual string GetValue(string xpath)
+        {
+            return _htmlDocument.DocumentNode
                 .SelectNodes(xpath)
                 .FirstOrDefault()
                 .InnerText.Trim();
