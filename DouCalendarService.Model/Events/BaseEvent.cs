@@ -1,7 +1,6 @@
 ﻿using DouCalendarService.Model.Attributes;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace DouCalendarService.Model.Events
 {
@@ -46,6 +45,7 @@ namespace DouCalendarService.Model.Events
         /// <summary>
         /// Place to pass event
         /// </summary>
+        [XPathLocation("/html/body/div[1]/div[4]/div/div[2]/div/div/div[1]/article[{0}]/div[1]/text()[2]")]
         public string Place { get; set; }
     }
 }

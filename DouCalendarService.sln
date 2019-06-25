@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DouCalendarService.Model", "DouCalendarService.Model\DouCalendarService.Model.csproj", "{A6A08AD2-CB69-4181-B4D6-4D26CF12D6D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DouCalendarService.Model", "DouCalendarService.Model\DouCalendarService.Model.csproj", "{A6A08AD2-CB69-4181-B4D6-4D26CF12D6D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DouCalendarService.Parser", "DouCalendarService.Parser\DouCalendarService.Parser.csproj", "{CBCCE3EB-273B-48F3-90AC-48EC9F8E738F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DouCalendarService.Parser", "DouCalendarService.Parser\DouCalendarService.Parser.csproj", "{CBCCE3EB-273B-48F3-90AC-48EC9F8E738F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DouCalendarService.ConsoleApp", "DouCalendarService.ConsoleApp\DouCalendarService.ConsoleApp.csproj", "{BB3FC318-5A2C-4B5C-BA92-DE4110261830}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DouCalendarService.ConsoleApp", "DouCalendarService.ConsoleApp\DouCalendarService.ConsoleApp.csproj", "{BB3FC318-5A2C-4B5C-BA92-DE4110261830}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DouCalendarService.Service", "DouCalendarService.Service\DouCalendarService.Service.csproj", "{58F0775D-92C8-45D4-9351-C81698955304}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{BB3FC318-5A2C-4B5C-BA92-DE4110261830}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB3FC318-5A2C-4B5C-BA92-DE4110261830}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB3FC318-5A2C-4B5C-BA92-DE4110261830}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58F0775D-92C8-45D4-9351-C81698955304}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58F0775D-92C8-45D4-9351-C81698955304}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58F0775D-92C8-45D4-9351-C81698955304}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58F0775D-92C8-45D4-9351-C81698955304}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

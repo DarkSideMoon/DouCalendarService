@@ -1,5 +1,7 @@
 ﻿using HtmlAgilityPack;
 using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace DouCalendarService.Parser
 {
@@ -16,10 +18,18 @@ namespace DouCalendarService.Parser
             _url = url;
         }
 
-        public virtual void Load()
+        public virtual async Task Load()
         {
-            var web = new HtmlWeb();
-            _htmlDocument = web.Load(_url);
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(_url))
+                {
+                    var result = await response.Content.ReadAsStringAsync();
+
+                    _htmlDocument = new HtmlDocument();
+                    _htmlDocument.LoadHtml(result);
+                }
+            }
         }
 
         public virtual string GetValue(string xpath)

@@ -1,14 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\DouCalendarService.Model\DouCalendarService.Model.csproj" />
     <ProjectReference Include="..\DouCalendarService.Parser\DouCalendarService.Parser.csproj" />
-    <ProjectReference Include="..\DouCalendarService.Service\DouCalendarService.Service.csproj" />
   </ItemGroup>
 
 </Project>

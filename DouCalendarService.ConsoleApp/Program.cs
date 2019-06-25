@@ -1,8 +1,7 @@
-﻿using DouCalendarService.Model.Attributes;
-using DouCalendarService.Model.Events;
-using DouCalendarService.Parser.Dou;
+﻿using DouCalendarService.Parser.Dou;
+using DouCalendarService.Service;
 using System;
-using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DouCalendarService.ConsoleApp
 {
@@ -12,23 +11,13 @@ namespace DouCalendarService.ConsoleApp
         {
             Console.WriteLine("Hello World!");
 
-            var url = "https://dou.ua/calendar/";
-            var parser = new DouHtmlParser(url);
-            parser.Load();
+            var requestUrl = "https://dou.ua/calendar/?switch_lang=uk";
+            var parser = new DouHtmlParser(requestUrl);
 
-            var shortEvents = new List<ShortEvent>();
+            var douService = new DouService(parser);
+            Task.WaitAll(douService.InitializeAsync());
 
-            var eventsCount = parser.GetEventsCount();
-            for (int i = 1; i <= eventsCount; i++)
-            {
-                var shortEvent = new ShortEvent()
-                {
-                    Name = parser.GetValue(string.Format(AttributeHelper.GetValue<ShortEvent>(x => x.Name), i))
-                };
-
-                shortEvents.Add(shortEvent);
-            }
-
+            var res = douService.GetShortEvents();
 
             Console.ReadLine();
         }
