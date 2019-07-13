@@ -36,8 +36,17 @@ namespace DouCalendarService.Parser
         {
             return _htmlDocument.DocumentNode
                 .SelectNodes(xpath)
-                .FirstOrDefault()
-                .InnerText.Trim();
+                ?.FirstOrDefault()
+                ?.InnerText.Trim();
+        }
+
+        public virtual string GetImage(string xpath)
+        {
+            return _htmlDocument.DocumentNode
+                .SelectNodes(xpath)
+                ?.FirstOrDefault()
+                .Attributes["src"]
+                ?.Value;
         }
     }
 }

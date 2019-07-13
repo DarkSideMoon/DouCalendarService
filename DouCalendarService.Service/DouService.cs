@@ -28,6 +28,10 @@ namespace DouCalendarService.Service
         /// <returns></returns>
         public int GetCountOfEvents() => _parser.GetEventsCount();
 
+        /// <summary>
+        /// Get information about short event
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<ShortEvent> GetShortEvents()
         {
             var shortEvents = new List<ShortEvent>();
@@ -38,7 +42,13 @@ namespace DouCalendarService.Service
                 var shortEvent = new ShortEvent()
                 {
                     Name = _parser.GetValue(string.Format(GetXPath<ShortEvent>(x => x.Name), i)),
-                    Place = _parser.GetValue(string.Format(GetXPath<ShortEvent>(x => x.Place) ,i))
+                    Place = _parser.GetValue(string.Format(GetXPath<ShortEvent>(x => x.Place), i)),
+                    Image = _parser.GetImage(string.Format(GetXPath<ShortEvent>(x => x.Image), i)),
+                    Date = _parser.GetValue(string.Format(GetXPath<ShortEvent>(x => x.Date), i)),
+                    Description = _parser.GetValue(string.Format(GetXPath<ShortEvent>(x => x.Description), i)),
+                    CountOfVisitors = _parser.GetValue(string.Format(GetXPath<ShortEvent>(x => x.CountOfVisitors), i)),
+                    Cost = _parser.GetValue(string.Format(GetXPath<ShortEvent>(x => x.Cost), i)),
+                    Topics = _parser.GetTags(string.Format(GetXPath<ShortEvent>(x => x.Topics), i))
                 };
 
                 shortEvents.Add(shortEvent);

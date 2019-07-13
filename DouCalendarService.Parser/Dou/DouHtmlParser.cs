@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 
 namespace DouCalendarService.Parser.Dou
 {
     public class DouHtmlParser : HtmlParser
     {
+        private const string EventsCountXPath = "/html/body/div[1]/div[4]/div/div[2]/div/div/div[1]";
+
         public DouHtmlParser(string url) : base(url)
         {
         }
@@ -17,12 +16,29 @@ namespace DouCalendarService.Parser.Dou
         /// <returns></returns>
         public int GetEventsCount()
         {
-            var eventsXPath = "/html/body/div[1]/div[4]/div/div[2]/div/div/div[1]";
             var element = _htmlDocument.DocumentNode
-                .SelectNodes(eventsXPath)
+                .SelectNodes(EventsCountXPath)
                 .FirstOrDefault();
 
             return element.SelectNodes("article").Count;
+        }
+
+        /// <summary>
+        /// Parse html content to get tags of event
+        /// </summary>
+        /// <returns></returns>
+        public string GetTags(string xpath)
+        {
+            var html = _htmlDocument.DocumentNode
+                .SelectNodes(xpath)
+                .FirstOrDefault();
+
+            if(html != null)
+            {
+
+            }
+
+            return string.Empty;
         }
     }
 }
