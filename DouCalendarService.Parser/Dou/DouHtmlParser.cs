@@ -35,7 +35,11 @@ namespace DouCalendarService.Parser.Dou
 
             if(html != null)
             {
+                var childs = html.ChildNodes
+                    .Where(x => x.Name == "a")
+                    .ToList();
 
+                return string.Join(";", childs.Select(x => x.InnerHtml).ToList());
             }
 
             return string.Empty;
