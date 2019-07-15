@@ -40,6 +40,15 @@ namespace DouCalendarService.Parser
                 ?.InnerText.Trim();
         }
 
+        public virtual string GetHrefValue(string xpath)
+        {
+            return _htmlDocument.DocumentNode
+                .SelectNodes(xpath)
+                ?.FirstOrDefault()
+                .Attributes["href"]
+                ?.Value;
+        }
+
         public virtual string GetImage(string xpath)
         {
             return _htmlDocument.DocumentNode

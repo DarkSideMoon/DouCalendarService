@@ -41,6 +41,7 @@ namespace DouCalendarService.Service
             {
                 var shortEvent = new ShortEvent()
                 {
+                    Url = _parser.GetHrefValue(string.Format(GetXPath<ShortEvent>(x => x.Url), i)),
                     Name = _parser.GetValue(string.Format(GetXPath<ShortEvent>(x => x.Name), i)),
                     Place = _parser.GetValue(string.Format(GetXPath<ShortEvent>(x => x.Place), i)),
                     Image = _parser.GetImage(string.Format(GetXPath<ShortEvent>(x => x.Image), i)),

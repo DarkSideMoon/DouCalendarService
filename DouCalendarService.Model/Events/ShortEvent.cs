@@ -1,12 +1,15 @@
 ﻿using DouCalendarService.Model.Attributes;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DouCalendarService.Model.Events
 {
     public class ShortEvent
     {
+        /// <summary>
+        /// Link of event
+        /// </summary>
+        [XPathLocation("/html/body/div[1]/div[4]/div/div[2]/div/div/div[1]/article[{0}]/h2/a")]
+        public string Url { get; set; }
+
         /// <summary>
         /// Name of event
         /// </summary>
