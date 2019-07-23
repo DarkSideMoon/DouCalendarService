@@ -1,0 +1,11 @@
+language: csharp
+dist: trusty
+sudo: required
+solution: DouCalendarService.sln
+mono: none
+dotnet: 2.2.6
+
+script:
+ - dotnet --version
+ - dotnet restore
+ - dotnet build
