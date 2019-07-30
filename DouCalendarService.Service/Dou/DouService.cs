@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace DouCalendarService.Service
+namespace DouCalendarService.Service.Dou
 {
     public class DouService : IDouService
     {

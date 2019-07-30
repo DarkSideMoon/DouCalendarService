@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DouCalendarService.Service
+namespace DouCalendarService.Service.Dou
 {
     public interface IDouService
     {
