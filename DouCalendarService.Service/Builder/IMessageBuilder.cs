@@ -20,6 +20,8 @@ namespace DouCalendarService.Service.Builder
 
         IMessageBuilder AddTime(string time);
 
+        IMessageBuilder NewLine();
+
         string Build();
     }
 }

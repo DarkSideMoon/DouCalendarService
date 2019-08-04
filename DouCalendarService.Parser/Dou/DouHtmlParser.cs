@@ -4,7 +4,7 @@ namespace DouCalendarService.Parser.Dou
 {
     public class DouHtmlParser : HtmlParser
     {
-        private const string EventsCountXPath = "/html/body/div[1]/div[4]/div/div[2]/div/div/div[1]";
+        private const string EventsCountXPath = "/html/body/div[1]/div[3]/div/div[2]/div/div/div[1]";
 
         public DouHtmlParser(string url) : base(url)
         {

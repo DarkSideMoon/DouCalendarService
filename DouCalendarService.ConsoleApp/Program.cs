@@ -13,11 +13,13 @@ namespace DouCalendarService.ConsoleApp
 
             var requestUrl = "https://dou.ua/calendar/?switch_lang=uk";
             var parser = new DouHtmlParser(requestUrl);
+            var messageBuilder = new DouMessageBuilder();
 
-            var douService = new DouService(parser);
+            var douService = new DouService(parser, messageBuilder);
             Task.WaitAll(douService.InitializeAsync());
 
-            var res = douService.GetShortEvents();
+            //var res = douService.GetShortEvents();
+            var message = douService.GetMessageEvent();
 
             Console.ReadLine();
         }

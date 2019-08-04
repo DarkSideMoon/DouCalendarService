@@ -10,6 +10,12 @@ namespace DouCalendarService.Service.Dou
 
         int GetCountOfEvents();
 
+        ShortEvent GetFirstEvent();
+
         IEnumerable<ShortEvent> GetShortEvents();
+
+        string GetMessageEvent();
+
+        IEnumerable<string> GetMessageEvents();
     }
 }
