@@ -19,7 +19,7 @@ namespace DouCalendarService.ConsoleApp
             Task.WaitAll(douService.InitializeAsync());
 
             //var res = douService.GetShortEvents();
-            var message = douService.GetMessageEvent();
+            //var message = douService.GetMessageEvent();
 
             Console.ReadLine();
         }

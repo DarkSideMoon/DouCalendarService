@@ -37,7 +37,7 @@ namespace DouCalendarService.Model.Events
         /// <summary>
         /// Topic to relate event
         /// </summary>
-        [XPathLocation("/html/body/div[1]/div[3]/div/div[2]/div/div/div[1]/article[{0}]/div[2]")]
+        [XPathLocation("/html/body/div[1]/div[5]/div/div[2]/div/div/div[1]/article[{0}]/div[2]")]
         public string Topics { get; set; }
 
         /// <summary>

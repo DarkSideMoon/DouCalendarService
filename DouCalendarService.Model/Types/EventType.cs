@@ -1,6 +1,10 @@
-﻿namespace DouCalendarService.Model.Types
+﻿using System.Runtime.Serialization;
+
+namespace DouCalendarService.Model.Types
 {
-    public class EventType : BaseType<int, string>
+    public enum EventType
     {
+        //[EnumMember(Value = "Киев")]
+        //Kyiv = 1,
     }
 }

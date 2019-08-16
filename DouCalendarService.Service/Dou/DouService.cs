@@ -112,7 +112,7 @@ namespace DouCalendarService.Service.Dou
                 Description = _parser.GetValue(string.Format(GetXPath<ShortEvent>(x => x.Description), eventNumber)),
                 CountOfVisitors = _parser.GetValue(string.Format(GetXPath<ShortEvent>(x => x.CountOfVisitors), eventNumber)),
                 Price = _parser.GetValue(string.Format(GetXPath<ShortEvent>(x => x.Price), eventNumber)),
-                Topics = _parser.GetTags(string.Format(GetXPath<ShortEvent>(x => x.Topics), eventNumber))
+                //Topics = _parser.GetTags(string.Format(GetXPath<ShortEvent>(x => x.Topics), eventNumber))
             };
         }
     }
