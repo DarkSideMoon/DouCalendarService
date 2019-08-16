@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DouCalendarService.Parser",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DouCalendarService.ConsoleApp", "DouCalendarService.ConsoleApp\DouCalendarService.ConsoleApp.csproj", "{BB3FC318-5A2C-4B5C-BA92-DE4110261830}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DouCalendarService.Service", "DouCalendarService.Service\DouCalendarService.Service.csproj", "{58F0775D-92C8-45D4-9351-C81698955304}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DouCalendarService.Service", "DouCalendarService.Service\DouCalendarService.Service.csproj", "{58F0775D-92C8-45D4-9351-C81698955304}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DouCalendarService.WebAPI", "DouCalendarService.WebAPI\DouCalendarService.WebAPI.csproj", "{E8EA478E-EC58-4646-8E55-FDFE0357C889}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{58F0775D-92C8-45D4-9351-C81698955304}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{58F0775D-92C8-45D4-9351-C81698955304}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{58F0775D-92C8-45D4-9351-C81698955304}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8EA478E-EC58-4646-8E55-FDFE0357C889}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8EA478E-EC58-4646-8E55-FDFE0357C889}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8EA478E-EC58-4646-8E55-FDFE0357C889}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8EA478E-EC58-4646-8E55-FDFE0357C889}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
