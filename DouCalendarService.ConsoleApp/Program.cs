@@ -1,4 +1,4 @@
-﻿using DouCalendarService.Parser.Dou;
+﻿using DouCalendarService.Parser;
 using DouCalendarService.Service.Dou;
 using System;
 using System.Threading.Tasks;
@@ -12,11 +12,10 @@ namespace DouCalendarService.ConsoleApp
             Console.WriteLine("Hello World!");
 
             var requestUrl = "https://dou.ua/calendar/?switch_lang=uk";
-            var parser = new DouHtmlParser(requestUrl);
-            var messageBuilder = new DouMessageBuilder();
+            var parser = new DouHtmlParser();
 
-            var douService = new DouService(parser, messageBuilder);
-            Task.WaitAll(douService.InitializeAsync());
+            var douService = new DouService(parser);
+            //Task.WaitAll(douService.InitializeAsync(requestUrl));
 
             //var res = douService.GetShortEvents();
             //var message = douService.GetMessageEvent();

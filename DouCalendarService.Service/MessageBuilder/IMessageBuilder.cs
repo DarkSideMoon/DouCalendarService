@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DouCalendarService.Service.Builder
+namespace DouCalendarService.Service.MessageBuilder
 {
     public interface IMessageBuilder
     {

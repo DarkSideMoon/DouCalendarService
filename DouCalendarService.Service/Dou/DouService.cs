@@ -1,7 +1,7 @@
 ﻿using DouCalendarService.Model.Attributes;
 using DouCalendarService.Model.Events;
-using DouCalendarService.Parser.Dou;
-using DouCalendarService.Service.Builder;
+using DouCalendarService.Model.Types;
+using DouCalendarService.Parser;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -11,37 +11,61 @@ namespace DouCalendarService.Service.Dou
 {
     public class DouService : IDouService
     {
-        private const int FirstEvent = 1;
+        private readonly IDouHtmlParser _parser;
 
-        private readonly DouHtmlParser _parser;
-        private readonly IMessageBuilder _messageBuilder;
-
-        public DouService(DouHtmlParser parser, IMessageBuilder messageBuilder)
+        public DouService(IDouHtmlParser parser)
         {
             _parser = parser;
-            _messageBuilder = messageBuilder;
         }
 
         /// <summary>
-        /// Initalize loading web page
+        /// Get evnts on specific day
         /// </summary>
-        public async Task InitializeAsync() => await _parser.Load();
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<ShortEvent>> GetEventsOnDay(DateTime dateTime)
+        {
+            var url = string.Concat("", dateTime.Date.ToString());
+            await _parser.LoadHtmlPage(url);
+
+            return GetShortEvents();
+        }
 
         /// <summary>
-        /// Get count of events per page
+        /// Get events by location
         /// </summary>
+        /// <param name="location"></param>
         /// <returns></returns>
-        public int GetCountOfEvents() => _parser.GetEventsCount();
+        public async Task<IEnumerable<ShortEvent>> GetEventsByLocation(LocationType location)
+        {
+            var url = string.Concat("", location.ToString());
+            await _parser.LoadHtmlPage(url);
+
+            return GetShortEvents();
+        }
+
+        /// <summary>
+        /// Get events by topic
+        /// </summary>
+        /// <param name="topic"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<ShortEvent>> GetEventsByTopic(TopicType topic)
+        {
+            var url = string.Concat("", topic.ToString());
+            await _parser.LoadHtmlPage("");
+
+            return GetShortEvents();
+        }
 
         /// <summary>
         /// Get information about all short events on page
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<ShortEvent> GetShortEvents()
+        private IEnumerable<ShortEvent> GetShortEvents()
         {
             var shortEvents = new List<ShortEvent>();
 
-            var eventsCount = GetCountOfEvents();
+            var eventsCount = _parser.GetEventsCount();
             for (int i = 1; i <= eventsCount; i++)
             {
                 var shortEvent = GetEvent(i);
@@ -52,68 +76,29 @@ namespace DouCalendarService.Service.Dou
         }
 
         /// <summary>
-        /// Get information about first short event on page
+        /// Get event by index in html
         /// </summary>
+        /// <param name="eventIndex"></param>
         /// <returns></returns>
-        public ShortEvent GetFirstEvent()
+        private ShortEvent GetEvent(int eventIndex)
         {
-            return GetEvent(FirstEvent);
-        }
-
-        /// <summary>
-        /// Get mesage format of event
-        /// </summary>
-        /// <returns></returns>
-        public string GetMessageEvent()
-        {
-            var douEvent = GetFirstEvent();
-
-            _messageBuilder.AddCaption(douEvent.Name);
-            _messageBuilder.AddTime(douEvent.Date);
-            _messageBuilder.AddMainText(douEvent.Description);
-            _messageBuilder.AddPlace(douEvent.Place);
-            _messageBuilder.AddPrice(douEvent.Price);
-            _messageBuilder.AddLink(douEvent.Url);
-
-            return _messageBuilder.Build();
-        }
-
-        public IEnumerable<string> GetMessageEvents()
-        {
-            var events = new List<string>();
-            foreach (var douEvent in GetShortEvents())
+            return new ShortEvent()
             {
-                _messageBuilder.AddCaption(douEvent.Name);
-                _messageBuilder.AddTime(douEvent.Date);
-                _messageBuilder.AddPlace(douEvent.Place);
-                _messageBuilder.AddPrice(douEvent.Price);
-
-                _messageBuilder.NewLine();
-
-                events.Add(_messageBuilder.Build());
-            }
-            return events;
+                Url = _parser.GetHrefValue(string.Format(GetXPath<ShortEvent>(x => x.Url), eventIndex)),
+                Name = _parser.GetValue(string.Format(GetXPath<ShortEvent>(x => x.Name), eventIndex)),
+                Place = _parser.GetValue(string.Format(GetXPath<ShortEvent>(x => x.Place), eventIndex)),
+                Image = _parser.GetImage(string.Format(GetXPath<ShortEvent>(x => x.Image), eventIndex)),
+                Date = _parser.GetValue(string.Format(GetXPath<ShortEvent>(x => x.Date), eventIndex)),
+                Description = _parser.GetValue(string.Format(GetXPath<ShortEvent>(x => x.Description), eventIndex)),
+                CountOfVisitors = _parser.GetValue(string.Format(GetXPath<ShortEvent>(x => x.CountOfVisitors), eventIndex)),
+                Price = _parser.GetValue(string.Format(GetXPath<ShortEvent>(x => x.Price), eventIndex)),
+                //Topics = _parser.GetTags(string.Format(GetXPath<ShortEvent>(x => x.Topics), eventIndex))
+            };
         }
 
         private string GetXPath<T>(Expression<Func<T, string>> func)
         {
             return AttributeHelper.GetValue(func);
-        }
-
-        private ShortEvent GetEvent(int eventNumber)
-        {
-            return new ShortEvent()
-            {
-                Url = _parser.GetHrefValue(string.Format(GetXPath<ShortEvent>(x => x.Url), eventNumber)),
-                Name = _parser.GetValue(string.Format(GetXPath<ShortEvent>(x => x.Name), eventNumber)),
-                Place = _parser.GetValue(string.Format(GetXPath<ShortEvent>(x => x.Place), eventNumber)),
-                Image = _parser.GetImage(string.Format(GetXPath<ShortEvent>(x => x.Image), eventNumber)),
-                Date = _parser.GetValue(string.Format(GetXPath<ShortEvent>(x => x.Date), eventNumber)),
-                Description = _parser.GetValue(string.Format(GetXPath<ShortEvent>(x => x.Description), eventNumber)),
-                CountOfVisitors = _parser.GetValue(string.Format(GetXPath<ShortEvent>(x => x.CountOfVisitors), eventNumber)),
-                Price = _parser.GetValue(string.Format(GetXPath<ShortEvent>(x => x.Price), eventNumber)),
-                //Topics = _parser.GetTags(string.Format(GetXPath<ShortEvent>(x => x.Topics), eventNumber))
-            };
         }
     }
 }

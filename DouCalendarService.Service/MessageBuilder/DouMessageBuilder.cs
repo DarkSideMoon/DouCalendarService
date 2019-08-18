@@ -1,9 +1,9 @@
-﻿using DouCalendarService.Service.Builder;
+﻿using DouCalendarService.Service.MessageBuilder;
 using System.Collections.Generic;
 using System.Text;
 using System;
 
-namespace DouCalendarService.Service.Dou
+namespace DouCalendarService.Service.MessageBuilder
 {
     public class DouMessageBuilder : IMessageBuilder
     {

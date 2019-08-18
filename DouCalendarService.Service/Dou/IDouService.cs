@@ -1,4 +1,6 @@
 ﻿using DouCalendarService.Model.Events;
+using DouCalendarService.Model.Types;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -6,16 +8,10 @@ namespace DouCalendarService.Service.Dou
 {
     public interface IDouService
     {
-        Task InitializeAsync();
+        Task<IEnumerable<ShortEvent>> GetEventsOnDay(DateTime dateTime);
 
-        int GetCountOfEvents();
+        Task<IEnumerable<ShortEvent>> GetEventsByLocation(LocationType location);
 
-        ShortEvent GetFirstEvent();
-
-        IEnumerable<ShortEvent> GetShortEvents();
-
-        string GetMessageEvent();
-
-        IEnumerable<string> GetMessageEvents();
+        Task<IEnumerable<ShortEvent>> GetEventsByTopic(TopicType topic);
     }
 }
