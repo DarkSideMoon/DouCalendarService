@@ -27,6 +27,12 @@ namespace DouCalendarService.Service.UrlBuilder
             return this;
         }
 
+        public IDouCalendarUrlBuilder AddPage(string page)
+        {
+            _builder.Append($"page-{page}");
+            return this;
+        }
+
         public IDouCalendarUrlBuilder AddTag(string tag)
         {
             _builder.Append($"tags/{tag}");

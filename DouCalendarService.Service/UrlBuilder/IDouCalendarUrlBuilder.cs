@@ -8,6 +8,8 @@
 
         IDouCalendarUrlBuilder AddDay(string day);
 
+        IDouCalendarUrlBuilder AddPage(string page);
+
         IDouCalendarUrlBuilder AddTagWithCity(string city, string tag);
 
         string Build();
