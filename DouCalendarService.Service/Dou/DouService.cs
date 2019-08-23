@@ -2,6 +2,7 @@
 using DouCalendarService.Model.Events;
 using DouCalendarService.Model.Types;
 using DouCalendarService.Parser;
+using DouCalendarService.Service.UrlBuilder;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -12,10 +13,12 @@ namespace DouCalendarService.Service.Dou
     public class DouService : IDouService
     {
         private readonly IDouHtmlParser _parser;
+        private readonly IDouCalendarUrlBuilder _urlBuilder;
 
-        public DouService(IDouHtmlParser parser)
+        public DouService(IDouHtmlParser parser, IDouCalendarUrlBuilder urlBuilder)
         {
             _parser = parser;
+            _urlBuilder = urlBuilder;
         }
 
         /// <summary>
@@ -25,7 +28,9 @@ namespace DouCalendarService.Service.Dou
         /// <returns></returns>
         public async Task<IEnumerable<ShortEvent>> GetEventsOnDay(DateTime dateTime)
         {
-            var url = string.Concat("", dateTime.Date.ToString());
+            var url = _urlBuilder
+                .AddDay(dateTime.ToShortDateString())
+                .Build();
             await _parser.LoadHtmlPage(url);
 
             return GetShortEvents();
@@ -38,7 +43,9 @@ namespace DouCalendarService.Service.Dou
         /// <returns></returns>
         public async Task<IEnumerable<ShortEvent>> GetEventsByLocation(LocationType location)
         {
-            var url = string.Concat("", location.ToString());
+            var url = _urlBuilder
+                .AddCity(location.ToString())
+                .Build();
             await _parser.LoadHtmlPage(url);
 
             return GetShortEvents();
@@ -51,8 +58,10 @@ namespace DouCalendarService.Service.Dou
         /// <returns></returns>
         public async Task<IEnumerable<ShortEvent>> GetEventsByTopic(TopicType topic)
         {
-            var url = string.Concat("", topic.ToString());
-            await _parser.LoadHtmlPage("");
+            var url = _urlBuilder
+                .AddTag(topic.ToString())
+                .Build();
+            await _parser.LoadHtmlPage(url);
 
             return GetShortEvents();
         }
