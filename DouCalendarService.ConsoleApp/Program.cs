@@ -11,10 +11,10 @@ namespace DouCalendarService.ConsoleApp
         {
             Console.WriteLine("Hello World!");
 
-            var requestUrl = "https://dou.ua/calendar/?switch_lang=uk";
-            var parser = new DouHtmlParser();
+            //var requestUrl = "https://dou.ua/calendar/?switch_lang=uk";
+            //var parser = new DouHtmlParser();
 
-            var douService = new DouService(parser);
+            //var douService = new DouService(parser);
             //Task.WaitAll(douService.InitializeAsync(requestUrl));
 
             //var res = douService.GetShortEvents();
