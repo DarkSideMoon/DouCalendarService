@@ -1,9 +1,9 @@
-﻿using DouCalendarService.Model.Attributes;
+﻿using DouCalendarService.Contracts.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DouCalendarService.Model.Events
+namespace DouCalendarService.Contracts.Events
 {
     public class Event
     {

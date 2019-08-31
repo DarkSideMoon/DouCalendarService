@@ -1,6 +1,6 @@
-﻿using DouCalendarService.Model.Attributes;
-using DouCalendarService.Model.Events;
-using DouCalendarService.Model.Types;
+﻿using DouCalendarService.Contracts.Attributes;
+using DouCalendarService.Contracts.Events;
+using DouCalendarService.Contracts.Types;
 using DouCalendarService.Parser;
 using DouCalendarService.Service.UrlBuilder;
 using System;
@@ -12,6 +12,8 @@ namespace DouCalendarService.Service.Dou
 {
     public class DouService : IDouService
     {
+        private const string DateTimeFormat = "yyyy-MM-dd";
+
         private readonly IDouHtmlParser _parser;
         private readonly IDouCalendarUrlBuilder _urlBuilder;
 
@@ -26,10 +28,12 @@ namespace DouCalendarService.Service.Dou
         /// </summary>
         /// <param name="dateTime"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<ShortEvent>> GetEventsOnDay(DateTime dateTime)
+        public async Task<IEnumerable<ShortEvent>> GetEventsOnDay(string dateTime)
         {
+            DateTime.TryParse(dateTime, out var date);
+
             var url = _urlBuilder
-                .AddDay(dateTime.ToShortDateString())
+                .AddDay(date.ToString(DateTimeFormat))
                 .Build();
             await _parser.LoadHtmlPage(url);
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DouCalendarService.Model.Events
+namespace DouCalendarService.Contracts.Events
 {
     public class EventDescription
     {

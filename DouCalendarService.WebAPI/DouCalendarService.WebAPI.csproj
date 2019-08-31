@@ -20,4 +20,8 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0-rc2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DouCalendarService.Service\DouCalendarService.Service.csproj" />
+  </ItemGroup>
+
 </Project>

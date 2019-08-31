@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace DouCalendarService.Model.Types
+namespace DouCalendarService.Contracts.Types
 {
     public enum LocationType
     {

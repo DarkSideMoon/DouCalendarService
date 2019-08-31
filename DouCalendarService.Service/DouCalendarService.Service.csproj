@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DouCalendarService.Model\DouCalendarService.Model.csproj" />
+    <ProjectReference Include="..\DouCalendarService.Contracts\DouCalendarService.Contracts.csproj" />
     <ProjectReference Include="..\DouCalendarService.Parser\DouCalendarService.Parser.csproj" />
   </ItemGroup>
 

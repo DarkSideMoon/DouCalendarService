@@ -22,6 +22,7 @@ namespace DouCalendarService.WebAPI
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddSwaggerService();
+            services.AddClientsServices();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

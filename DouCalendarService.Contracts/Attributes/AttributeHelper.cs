@@ -3,7 +3,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace DouCalendarService.Model.Attributes
+namespace DouCalendarService.Contracts.Attributes
 {
     public static class AttributeHelper
     {
