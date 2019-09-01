@@ -1,32 +1,31 @@
 ﻿using DouCalendarService.Contracts.Types;
 using DouCalendarService.Service.Dou;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Threading.Tasks;
 
 namespace DouCalendarService.WebAPI.Controllers
 {
     [ApiController]
-    [Route("calendar")]
+    [Route("event")]
     [Produces("application/json")]
-    public class CalendarController : ControllerBase
+    public class EventController : ControllerBase
     {
         private readonly IDouService _douService;
 
-        public CalendarController(IDouService douService)
+        public EventController(IDouService douService)
         {
             _douService = douService;
         }
 
         [HttpGet]
-        [Route("event/{id}")]
+        [Route("{id}")]
         public async Task<IActionResult> GetEventById(int id)
         {
             return Ok();
         }
 
         [HttpGet]
-        [Route("events/day/{date}")]
+        [Route("day/{date}")]
         public async Task<IActionResult> GetEventsOnDay(string date)
         {
             var result = await _douService.GetEventsOnDay(date);
@@ -35,7 +34,7 @@ namespace DouCalendarService.WebAPI.Controllers
         }
 
         [HttpGet]
-        [Route("events/city/{location}")]
+        [Route("city/{location}")]
         public async Task<IActionResult> GetEventsByLocation(LocationType location)
         {
             var result = await _douService.GetEventsByLocation(location);
@@ -44,7 +43,7 @@ namespace DouCalendarService.WebAPI.Controllers
         }
 
         [HttpGet]
-        [Route("events/topic/{topic}")]
+        [Route("topic/{topic}")]
         public async Task<IActionResult> GetEventsByTopic(TopicType topic)
         {
             var result = await _douService.GetEventsByTopic(topic);

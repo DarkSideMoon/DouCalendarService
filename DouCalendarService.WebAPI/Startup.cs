@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using DouCalendarService.WebAPI.Infrastructure;
+using DouCalendarService.WebAPI.Middleware;
 
 namespace DouCalendarService.WebAPI
 {
@@ -32,6 +33,8 @@ namespace DouCalendarService.WebAPI
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", $"{DocumentationVariables.ServiceApiName} V1");
             });
+
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseHttpsRedirection();
             app.UseMvc();
