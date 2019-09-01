@@ -43,12 +43,12 @@ namespace DouCalendarService.Service.Dou
         /// <summary>
         /// Get events by location
         /// </summary>
-        /// <param name="location"></param>
+        /// <param name="locationType"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<ShortEvent>> GetEventsByLocation(LocationType location)
+        public async Task<IEnumerable<ShortEvent>> GetEventsByLocation(LocationType locationType)
         {
             var url = _urlBuilder
-                .AddCity(location.ToString())
+                .AddCity(AttributeHelper.GetEnumMemberValue(locationType, typeof(LocationType)))
                 .Build();
             await _parser.LoadHtmlPage(url);
 
@@ -63,7 +63,7 @@ namespace DouCalendarService.Service.Dou
         public async Task<IEnumerable<ShortEvent>> GetEventsByTopic(TopicType topic)
         {
             var url = _urlBuilder
-                .AddTag(topic.ToString())
+                .AddTag(AttributeHelper.GetEnumMemberValue(topic, typeof(TopicType)))
                 .Build();
             await _parser.LoadHtmlPage(url);
 
@@ -97,21 +97,21 @@ namespace DouCalendarService.Service.Dou
         {
             return new ShortEvent()
             {
-                Url = _parser.GetHrefValue(string.Format(GetXPath<ShortEvent>(x => x.Url), eventIndex)),
-                Name = _parser.GetValue(string.Format(GetXPath<ShortEvent>(x => x.Name), eventIndex)),
-                Place = _parser.GetValue(string.Format(GetXPath<ShortEvent>(x => x.Place), eventIndex)),
-                Image = _parser.GetImage(string.Format(GetXPath<ShortEvent>(x => x.Image), eventIndex)),
-                Date = _parser.GetValue(string.Format(GetXPath<ShortEvent>(x => x.Date), eventIndex)),
-                Description = _parser.GetValue(string.Format(GetXPath<ShortEvent>(x => x.Description), eventIndex)),
-                CountOfVisitors = _parser.GetValue(string.Format(GetXPath<ShortEvent>(x => x.CountOfVisitors), eventIndex)),
-                Price = _parser.GetValue(string.Format(GetXPath<ShortEvent>(x => x.Price), eventIndex)),
-                //Topics = _parser.GetTags(string.Format(GetXPath<ShortEvent>(x => x.Topics), eventIndex))
+                Url = _parser.GetHrefValue(string.Format(GetXPath(x => x.Url), eventIndex)),
+                Name = _parser.GetValue(string.Format(GetXPath(x => x.Name), eventIndex)),
+                Place = _parser.GetValue(string.Format(GetXPath(x => x.Place), eventIndex)),
+                Image = _parser.GetImage(string.Format(GetXPath(x => x.Image), eventIndex)),
+                Date = _parser.GetValue(string.Format(GetXPath(x => x.Date), eventIndex)),
+                Description = _parser.GetValue(string.Format(GetXPath(x => x.Description), eventIndex)),
+                CountOfVisitors = _parser.GetValue(string.Format(GetXPath(x => x.CountOfVisitors), eventIndex)),
+                Price = _parser.GetValue(string.Format(GetXPath(x => x.Price), eventIndex)),
+                Topics = _parser.GetTags(string.Format(GetXPath(x => x.Topics), eventIndex))
             };
         }
 
-        private string GetXPath<T>(Expression<Func<T, string>> func)
+        private string GetXPath(Expression<Func<ShortEvent, string>> func)
         {
-            return AttributeHelper.GetValue(func);
+            return AttributeHelper.GetXPathLocationValue(func);
         }
     }
 }

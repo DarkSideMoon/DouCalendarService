@@ -10,7 +10,7 @@ namespace DouCalendarService.Service.Dou
     {
         Task<IEnumerable<ShortEvent>> GetEventsOnDay(string dateTime);
 
-        Task<IEnumerable<ShortEvent>> GetEventsByLocation(LocationType location);
+        Task<IEnumerable<ShortEvent>> GetEventsByLocation(LocationType locationType);
 
         Task<IEnumerable<ShortEvent>> GetEventsByTopic(TopicType topic);
     }

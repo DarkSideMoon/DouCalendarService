@@ -34,7 +34,6 @@ namespace DouCalendarService.WebAPI.Controllers
             return Ok(result);
         }
 
-
         [HttpGet]
         [Route("events/city/{location}")]
         public async Task<IActionResult> GetEventsByLocation(LocationType location)
