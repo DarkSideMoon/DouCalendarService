@@ -5,6 +5,12 @@ namespace DouCalendarService.Contracts.Events
     public class ShortEvent
     {
         /// <summary>
+        /// Id of event
+        /// </summary>
+        [XPathLocation("/html/body/div[1]/div[4]/div/div[2]/div/div/div[1]/article[{0}]/h2/a")]
+        public string Id { get; set; }
+
+        /// <summary>
         /// Link of event
         /// </summary>
         [XPathLocation("/html/body/div[1]/div[4]/div/div[2]/div/div/div[1]/article[{0}]/h2/a")]

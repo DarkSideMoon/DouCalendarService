@@ -23,12 +23,6 @@ namespace DouCalendarService.Contracts.Attributes
 
         public static string GetXPathLocationValue(Expression<Func<ShortEvent, string>> propertyExpression)
         {
-            //var expression = (MemberExpression)propertyExpression.Body;
-            //var propertyInfo = (PropertyInfo)expression.Member;
-            //var attr = propertyInfo.GetCustomAttributes(typeof(XPathLocationAttribute), true).FirstOrDefault() 
-            //    as XPathLocationAttribute;
-            //return attr != null ? attr.Location : string.Empty;
-
             return GetValue<ShortEvent, XPathLocationAttribute>(propertyExpression, x => x.Location);
         }
 

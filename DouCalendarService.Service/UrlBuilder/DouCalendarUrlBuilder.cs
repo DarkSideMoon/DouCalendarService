@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 
 namespace DouCalendarService.Service.UrlBuilder
 {
@@ -13,6 +12,12 @@ namespace DouCalendarService.Service.UrlBuilder
         {
             _builder = new StringBuilder();
             _builder.Append(BaseUrl);
+        }
+
+        public IDouCalendarUrlBuilder AddId(string id)
+        {
+            _builder.Append(id);
+            return this;
         }
 
         public IDouCalendarUrlBuilder AddCity(string city)

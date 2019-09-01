@@ -24,6 +24,22 @@ namespace DouCalendarService.Service.Dou
         }
 
         /// <summary>
+        /// Get event by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<Event> GetEventById(string id)
+        {
+            var url = _urlBuilder
+                .AddId(id)
+                .Build();
+
+            await _parser.LoadHtmlPage(url);
+
+            return GetEvent();
+        }
+
+        /// <summary>
         /// Get evnts on specific day
         /// </summary>
         /// <param name="dateTime"></param>
@@ -81,7 +97,7 @@ namespace DouCalendarService.Service.Dou
             var eventsCount = _parser.GetEventsCount();
             for (int i = 1; i <= eventsCount; i++)
             {
-                var shortEvent = GetEvent(i);
+                var shortEvent = GetShortEvent(i);
                 shortEvents.Add(shortEvent);
             }
 
@@ -89,14 +105,15 @@ namespace DouCalendarService.Service.Dou
         }
 
         /// <summary>
-        /// Get event by index in html
+        /// Get short event by index in html
         /// </summary>
         /// <param name="eventIndex"></param>
         /// <returns></returns>
-        private ShortEvent GetEvent(int eventIndex)
+        private ShortEvent GetShortEvent(int eventIndex)
         {
-            return new ShortEvent()
+            return new ShortEvent
             {
+                Id = _parser.GetIdValue(string.Format(GetXPath(x => x.Url), eventIndex)),
                 Url = _parser.GetHrefValue(string.Format(GetXPath(x => x.Url), eventIndex)),
                 Name = _parser.GetValue(string.Format(GetXPath(x => x.Name), eventIndex)),
                 Place = _parser.GetValue(string.Format(GetXPath(x => x.Place), eventIndex)),
@@ -106,6 +123,14 @@ namespace DouCalendarService.Service.Dou
                 CountOfVisitors = _parser.GetValue(string.Format(GetXPath(x => x.CountOfVisitors), eventIndex)),
                 Price = _parser.GetValue(string.Format(GetXPath(x => x.Price), eventIndex)),
                 Topics = _parser.GetTags(string.Format(GetXPath(x => x.Topics), eventIndex))
+            };
+        }
+
+        private Event GetEvent()
+        {
+            return new Event
+            {
+
             };
         }
 

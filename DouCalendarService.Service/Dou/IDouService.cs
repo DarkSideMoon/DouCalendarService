@@ -8,6 +8,8 @@ namespace DouCalendarService.Service.Dou
 {
     public interface IDouService
     {
+        Task<Event> GetEventById(string id);
+
         Task<IEnumerable<ShortEvent>> GetEventsOnDay(string dateTime);
 
         Task<IEnumerable<ShortEvent>> GetEventsByLocation(LocationType locationType);

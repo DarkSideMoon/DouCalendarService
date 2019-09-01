@@ -19,9 +19,11 @@ namespace DouCalendarService.WebAPI.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<IActionResult> GetEventById(int id)
+        public async Task<IActionResult> GetEventById(string id)
         {
-            return Ok();
+            var result = await _douService.GetEventById(id);
+
+            return Ok(result);
         }
 
         [HttpGet]

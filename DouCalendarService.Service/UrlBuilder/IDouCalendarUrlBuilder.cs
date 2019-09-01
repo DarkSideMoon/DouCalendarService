@@ -2,6 +2,8 @@
 {
     public interface IDouCalendarUrlBuilder
     {
+        IDouCalendarUrlBuilder AddId(string id);
+
         IDouCalendarUrlBuilder AddCity(string city);
 
         IDouCalendarUrlBuilder AddTag(string tag);

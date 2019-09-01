@@ -60,7 +60,7 @@ namespace DouCalendarService.Parser
                 .SelectNodes(xpath)
                 .FirstOrDefault();
 
-            if(html != null)
+            if (html != null)
             {
                 var childs = html.ChildNodes
                     .Where(x => x.Name == ChildHrefNode)
@@ -111,6 +111,15 @@ namespace DouCalendarService.Parser
                 ?.FirstOrDefault()
                 .Attributes[ImageNode]
                 ?.Value;
+        }
+
+        public string GetIdValue(string xpath)
+        {
+            var url = GetHrefValue(xpath);
+            return url
+                .Remove(url.Length - 1)
+                .Split('/')
+                .LastOrDefault();
         }
     }
 }
