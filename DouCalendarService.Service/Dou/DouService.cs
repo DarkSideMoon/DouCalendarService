@@ -134,7 +134,7 @@ namespace DouCalendarService.Service.Dou
             };
         }
 
-        private string GetXPath(Expression<Func<ShortEvent, string>> func)
+        private static string GetXPath(Expression<Func<ShortEvent, string>> func)
         {
             return AttributeHelper.GetXPathLocationValue(func);
         }

@@ -14,7 +14,7 @@ namespace DouCalendarService.Parser
         private const string HrefNode = "href";
         private const string ImageNode = "src";
 
-        private HtmlDocument _htmlDocument;
+        private readonly HtmlDocument _htmlDocument;
 
         public DouHtmlParser()
         {
