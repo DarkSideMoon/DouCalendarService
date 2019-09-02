@@ -1,5 +1,4 @@
-﻿using DouCalendarService.Service.MessageBuilder;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 using System;
 

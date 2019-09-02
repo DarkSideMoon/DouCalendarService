@@ -2,13 +2,14 @@
 using DouCalendarService.Service.Dou;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Serilog;
 
 namespace DouCalendarService.WebAPI.Controllers
 {
     [ApiController]
     [Route("event")]
     [Produces("application/json")]
-    public class EventController : ControllerBase
+    public class EventController : BaseController
     {
         private readonly IDouService _douService;
 
@@ -21,8 +22,11 @@ namespace DouCalendarService.WebAPI.Controllers
         [Route("{id}")]
         public async Task<IActionResult> GetEventById(string id)
         {
+            LogRequestInformation(new[] { id });
+
             var result = await _douService.GetEventById(id);
 
+            LogResponseInformation(result);
             return Ok(result);
         }
 

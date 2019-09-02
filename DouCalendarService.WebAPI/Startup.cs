@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using DouCalendarService.WebAPI.Infrastructure;
 using DouCalendarService.WebAPI.Middleware;
+using Serilog;
 
 namespace DouCalendarService.WebAPI
 {
@@ -26,18 +27,25 @@ namespace DouCalendarService.WebAPI
             services.AddClientsServices();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, 
+            IHostingEnvironment env, 
+            IApplicationLifetime applicationLifetime)
         {
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", $"{DocumentationVariables.ServiceApiName} V1");
+                c.SwaggerEndpoint("../swagger/v1/swagger.json", $"{DocumentationVariables.ServiceApiName} V1");
             });
 
             app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseHttpsRedirection();
             app.UseMvc();
+
+            applicationLifetime.ApplicationStarted.Register(() =>
+            {
+                Log.Information($"{DocumentationVariables.ServiceApiName} App has been started.");
+            });
         }
     }
 }
