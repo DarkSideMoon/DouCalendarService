@@ -21,7 +21,7 @@ namespace DouCalendarService.Contracts.Events
         /// <summary>
         /// Date to pass event
         /// </summary>
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
 
         /// <summary>
         /// Description of event
@@ -68,5 +68,12 @@ namespace DouCalendarService.Contracts.Events
         /// Url to add event to google calender
         /// </summary>
         public string GoogleCalendar { get; set; }
+
+        public bool IsNullOrEmpty()
+        {
+            return string.IsNullOrEmpty(Name) 
+                && string.IsNullOrEmpty(Date)
+                && string.IsNullOrEmpty(Place);
+        }
     }
 }

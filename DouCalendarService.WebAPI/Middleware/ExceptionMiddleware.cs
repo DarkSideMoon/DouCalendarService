@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
 using DouCalendarService.Contracts.Common;
+using DouCalendarService.Contracts.Exceptions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Serilog;
 
 namespace DouCalendarService.WebAPI.Middleware
 {
@@ -25,6 +27,10 @@ namespace DouCalendarService.WebAPI.Middleware
             {
                 await _next(httpContext);
             }
+            catch (EventNotFoundException ex)
+            {
+                await HandleExceptionAsync(httpContext, ex, ex.Message, StatusCodes.Status404NotFound);
+            }
             catch (Exception ex)
             {
                 await HandleExceptionAsync(httpContext, ex, "Internal Server Error",
@@ -35,6 +41,8 @@ namespace DouCalendarService.WebAPI.Middleware
         protected Task HandleExceptionAsync(HttpContext context, Exception exception, string message, 
             int statusCode)
         {
+            Log.Warning(exception, message);
+
             context.Response.StatusCode = statusCode;
             context.Response.ContentType = "application/json";
 

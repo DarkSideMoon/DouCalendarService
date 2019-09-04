@@ -1,5 +1,6 @@
 ﻿using DouCalendarService.Contracts.Attributes;
 using DouCalendarService.Contracts.Events;
+using DouCalendarService.Contracts.Exceptions;
 using DouCalendarService.Contracts.Types;
 using DouCalendarService.Parser;
 using DouCalendarService.Service.UrlBuilder;
@@ -13,6 +14,7 @@ namespace DouCalendarService.Service.Dou
     public class DouService : IDouService
     {
         private const string DateTimeFormat = "yyyy-MM-dd";
+        private const string EventNotFoundMessage = "Event with id {0} not found!";
 
         private readonly IDouHtmlParser _parser;
         private readonly IDouCalendarUrlBuilder _urlBuilder;
@@ -35,8 +37,12 @@ namespace DouCalendarService.Service.Dou
                 .Build();
 
             await _parser.LoadHtmlPage(url);
+            var douEvent = GetEvent();
 
-            return GetEvent();
+            if (douEvent.IsNullOrEmpty())
+                throw new EventNotFoundException(string.Format(EventNotFoundMessage, id));
+
+            return douEvent;
         }
 
         /// <summary>

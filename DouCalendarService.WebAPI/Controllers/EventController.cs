@@ -2,7 +2,6 @@
 using DouCalendarService.Service.Dou;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using Serilog;
 
 namespace DouCalendarService.WebAPI.Controllers
 {
