@@ -15,5 +15,7 @@ namespace DouCalendarService.Service.Dou
         Task<IEnumerable<ShortEvent>> GetEventsByLocation(LocationType locationType);
 
         Task<IEnumerable<ShortEvent>> GetEventsByTopic(TopicType topic);
+
+        Task<string> GetGoogleLink(string id);
     }
 }

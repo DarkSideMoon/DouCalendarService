@@ -93,6 +93,26 @@ namespace DouCalendarService.Service.Dou
         }
 
         /// <summary>
+        /// Get google link
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<string> GetGoogleLink(string id)
+        {
+            var url = _urlBuilder
+                .AddId(id)
+                .Build();
+
+            await _parser.LoadHtmlPage(url);
+            var link = _parser.GetValue(GetXPath(x => x.Url));
+
+            if (string.IsNullOrEmpty(link))
+                throw new EventNotFoundException(string.Format(EventNotFoundMessage, id));
+
+            return link;
+        }
+
+        /// <summary>
         /// Get information about all short events on page
         /// </summary>
         /// <returns></returns>
