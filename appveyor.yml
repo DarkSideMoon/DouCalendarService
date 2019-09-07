@@ -8,10 +8,10 @@ install:
   - ps: dotnet tool install --global dotnet-sonarscanner
 
 build_script:
-  - ps: dotnet sonarscanner begin /key:"DouCalendarService" /organization:="darksidemoon" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="%SONAR_TOKEN%" /v:"%APPVEYOR_BUILD_NUMBER%" /d:sonar.cs.opencover.reportsPaths="%CD%\coverage.xml"
+  - ps: dotnet sonarscanner begin /key:"DouCalendarService" /organization:="darksidemoon" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="$env:SONAR_TOKEN" /v:"%APPVEYOR_BUILD_NUMBER%" /d:sonar.cs.opencover.reportsPaths="%CD%\coverage.xml"
   - ps: dotnet --info
   - ps: dotnet restore DouCalendarService.sln
   - ps: dotnet build DouCalendarService.sln
-  - ps: dotnet sonarscanner end /d:sonar.login="%SONAR_TOKEN%"
+  - ps: dotnet sonarscanner end /d:sonar.login="$env:SONAR_TOKEN"
 
 version: 0.0.1.{build}
