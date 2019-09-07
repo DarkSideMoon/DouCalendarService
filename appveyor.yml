@@ -1,11 +1,14 @@
+environment:
+  SONAR_TOKEN:
+    secure: Gvyjhe2uQZhsESOxbVT7FCpasiSX/mpud563xoy71saDLqXRjmeirzh+qawk5P3U
+
 image: Visual Studio 2017
 
 build_script:
-  - choco install "sonarscanner-msbuild-net46" -y
-  - SonarScanner.MSBuild.exe begin /k:"DouCalendarService" /d:"sonar.host.url=https://sonarcloud.io" /o:"darksidemoon" /d:"sonar.login=57567a622d7029a6322b6e34b1c0afd281417a94"
+  - ps: dotnet sonarscanner begin /k:"DouCalendarService" /d:sonar.organization="darksidemoon" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="%SONAR_TOKEN%" /v:"%APPVEYOR_BUILD_NUMBER%" /d:sonar.cs.opencover.reportsPaths="%CD%\coverage.xml"
   - ps: dotnet --info
   - ps: dotnet restore DouCalendarService.sln
   - ps: dotnet build DouCalendarService.sln
- - SonarScanner.MSBuild.exe end /d:"sonar.login=57567a622d7029a6322b6e34b1c0afd281417a94"
+  - ps: dotnet sonarscanner end /d:sonar.login="%SONAR_TOKEN%"
 
 version: 0.0.1.{build}
