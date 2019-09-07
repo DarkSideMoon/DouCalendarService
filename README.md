@@ -12,3 +12,5 @@
 | Service  | Code quality |
 | ------------- | ------------- |
 | codacy |[![Codacy Badge](https://api.codacy.com/project/badge/Grade/ff2d1f99b3db481b875077c4c7fa7fe3)](https://www.codacy.com/app/DarkSideMoon/DouCalendarService?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=DarkSideMoon/DouCalendarService&amp;utm_campaign=Badge_Grade)|
+| sonarcloud |[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=DouCalendarService&metric=alert_status)](https://sonarcloud.io/dashboard?id=DouCalendarService)|
+| reliability   |[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=DouCalendarService&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=DouCalendarService)|
