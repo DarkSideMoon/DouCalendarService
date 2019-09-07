@@ -1,8 +1,11 @@
 image: Visual Studio 2017
 
 build_script:
+  - choco install "sonarscanner-msbuild-net46" -y
+  - SonarScanner.MSBuild.exe begin /k:"DouCalendarService" /d:"sonar.host.url=https://sonarcloud.io" /o:"darksidemoon" /d:"sonar.login=57567a622d7029a6322b6e34b1c0afd281417a94"
   - ps: dotnet --info
   - ps: dotnet restore DouCalendarService.sln
   - ps: dotnet build DouCalendarService.sln
+ - SonarScanner.MSBuild.exe end /d:"sonar.login=57567a622d7029a6322b6e34b1c0afd281417a94"
 
 version: 0.0.1.{build}
