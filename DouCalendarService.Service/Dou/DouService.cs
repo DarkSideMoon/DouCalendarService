@@ -18,11 +18,15 @@ namespace DouCalendarService.Service.Dou
 
         private readonly IDouHtmlParser _parser;
         private readonly IDouCalendarUrlBuilder _urlBuilder;
+        private readonly IGoogleCalendarUrlBuilder _googleUrlBuilder;
 
-        public DouService(IDouHtmlParser parser, IDouCalendarUrlBuilder urlBuilder)
+        public DouService(IDouHtmlParser parser, 
+            IDouCalendarUrlBuilder urlBuilder,
+            IGoogleCalendarUrlBuilder googleUrlBuilde)
         {
             _parser = parser;
             _urlBuilder = urlBuilder;
+            _googleUrlBuilder = googleUrlBuilde;
         }
 
         /// <summary>
@@ -97,19 +101,19 @@ namespace DouCalendarService.Service.Dou
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<string> GetGoogleLink(string id)
+        public async Task<string> CreateGoogleLink(string id)
         {
             var url = _urlBuilder
                 .AddId(id)
                 .Build();
 
             await _parser.LoadHtmlPage(url);
-            var link = _parser.GetValue(GetXPath(x => x.Url));
+            var douEvent = await GetEventById(id);
 
-            if (string.IsNullOrEmpty(link))
+            if (douEvent.IsNullOrEmpty())
                 throw new EventNotFoundException(string.Format(EventNotFoundMessage, id));
 
-            return link;
+            return _googleUrlBuilder.Build();
         }
 
         /// <summary>

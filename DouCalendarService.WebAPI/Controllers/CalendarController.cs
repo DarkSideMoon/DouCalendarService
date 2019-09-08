@@ -33,7 +33,7 @@ namespace DouCalendarService.WebAPI.Controllers
         {
             LogRequestInformation(new[] { id });
 
-            var result = await _douService.GetGoogleLink(id);
+            var result = await _douService.CreateGoogleLink(id);
 
             LogResponseInformation(result);
             return Ok(result);

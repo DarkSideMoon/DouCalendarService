@@ -11,6 +11,7 @@ namespace DouCalendarService.WebAPI.Infrastructure
         {
             services.AddTransient<IDouHtmlParser, DouHtmlParser>();
             services.AddTransient<IDouCalendarUrlBuilder, DouCalendarUrlBuilder>();
+            services.AddTransient<IGoogleCalendarUrlBuilder, GoogleCalendarUrlBuilder>();
             services.AddTransient<IDouService, DouService>();
 
             return services;

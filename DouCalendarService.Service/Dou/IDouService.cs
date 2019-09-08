@@ -1,6 +1,5 @@
 ﻿using DouCalendarService.Contracts.Events;
 using DouCalendarService.Contracts.Types;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -16,6 +15,6 @@ namespace DouCalendarService.Service.Dou
 
         Task<IEnumerable<ShortEvent>> GetEventsByTopic(TopicType topic);
 
-        Task<string> GetGoogleLink(string id);
+        Task<string> CreateGoogleLink(string id);
     }
 }
