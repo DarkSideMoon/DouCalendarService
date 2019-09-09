@@ -27,7 +27,7 @@ namespace DouCalendarService.WebAPI.Controllers
         /// <response code="404">Event not found</response>  
         [HttpGet]
         [Route("google/{id}")]
-        [ProducesResponseType(typeof(Event), 200)]
+        [ProducesResponseType(typeof(string), 200)]
         [ProducesResponseType(typeof(ErrorResponse), 404)]
         public async Task<IActionResult> GetGoogleCalendarLinkById(string id)
         {

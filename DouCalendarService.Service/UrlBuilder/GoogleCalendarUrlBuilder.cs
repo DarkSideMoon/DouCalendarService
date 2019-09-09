@@ -6,7 +6,7 @@ namespace DouCalendarService.Service.UrlBuilder
 {
     public class GoogleCalendarUrlBuilder : IGoogleCalendarUrlBuilder
     {
-        private const string BaseUrl = "https://calendar.google.com/calendar/r/eventedit?";
+        private const string BaseUrl = "https://calendar.google.com/calendar/r/eventedit";
         private const string TitileKey = "text";
         private const string DatesKey = "dates";
         private const string LocationKey = "location";
@@ -21,9 +21,9 @@ namespace DouCalendarService.Service.UrlBuilder
             _queryString = new NameValueCollection();
         }
 
-        public IGoogleCalendarUrlBuilder AddDates(string startDate, string finishDate)
+        public IGoogleCalendarUrlBuilder AddDate(string date)
         {
-            _queryString.Add(TitileKey, $"{startDate}/{finishDate}");
+            _queryString.Add(TitileKey, $"{date}/{date}");
             return this;
         }
 

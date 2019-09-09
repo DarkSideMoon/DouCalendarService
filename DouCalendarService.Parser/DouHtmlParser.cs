@@ -79,6 +79,9 @@ namespace DouCalendarService.Parser
         /// <returns></returns>
         public string GetValue(string xpath)
         {
+            var res = _htmlDocument.DocumentNode
+                .SelectNodes(xpath);
+
             return _htmlDocument.DocumentNode
                 .SelectNodes(xpath)
                 ?.FirstOrDefault()

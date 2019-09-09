@@ -21,9 +21,9 @@ namespace DouCalendarService.Contracts.Attributes
             return attr != null ? valueSelector(attr) : string.Empty;
         }
 
-        public static string GetXPathLocationValue(Expression<Func<ShortEvent, string>> propertyExpression)
+        public static string GetXPathLocationValue<T>(Expression<Func<T, string>> propertyExpression)
         {
-            return GetValue<ShortEvent, XPathLocationAttribute>(propertyExpression, x => x.Location);
+            return GetValue<T, XPathLocationAttribute>(propertyExpression, x => x.Location);
         }
 
         public static string GetEnumMemberValue(object enumVal, Type enumType)
