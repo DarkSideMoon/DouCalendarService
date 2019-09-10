@@ -13,6 +13,7 @@ namespace DouCalendarService.Parser
         private const string ChildHrefSeperatorNode = ";";
         private const string HrefNode = "href";
         private const string ImageNode = "src";
+        private const string DataUrlNode = "data-url";
 
         private readonly HtmlDocument _htmlDocument;
 
@@ -123,6 +124,15 @@ namespace DouCalendarService.Parser
                 .Remove(url.Length - 1)
                 .Split('/')
                 .LastOrDefault();
+        }
+
+        public string GetParsedUrl(string xpath)
+        {
+            return _htmlDocument.DocumentNode
+                .SelectNodes(xpath)
+                ?.FirstOrDefault()
+                .Attributes[DataUrlNode]
+                ?.Value;
         }
     }
 }

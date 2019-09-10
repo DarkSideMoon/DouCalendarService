@@ -11,6 +11,7 @@ namespace DouCalendarService.Service.UrlBuilder
         private const string DatesKey = "dates";
         private const string LocationKey = "location";
         private const string DetailsKey = "details";
+        private const string TrpKey = "trp";
 
         private readonly StringBuilder _builder;
         private readonly NameValueCollection _queryString;
@@ -23,7 +24,7 @@ namespace DouCalendarService.Service.UrlBuilder
 
         public IGoogleCalendarUrlBuilder AddDate(string date)
         {
-            _queryString.Add(TitileKey, $"{date}/{date}");
+            _queryString.Add(DatesKey, $"{date}/{date}");
             return this;
         }
 
@@ -39,7 +40,7 @@ namespace DouCalendarService.Service.UrlBuilder
             return this;
         }
 
-        public IGoogleCalendarUrlBuilder Details(string details)
+        public IGoogleCalendarUrlBuilder AddDetails(string details)
         {
             _queryString.Add(DetailsKey, details);
             return this;
@@ -47,6 +48,8 @@ namespace DouCalendarService.Service.UrlBuilder
 
         public string Build()
         {
+            _queryString.Add(TrpKey, "false");
+
             _builder.Append(_queryString.ToQueryString());
             return _builder.ToString();
         }

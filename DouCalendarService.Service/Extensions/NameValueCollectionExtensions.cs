@@ -1,6 +1,6 @@
-﻿using System.Collections.Specialized;
+﻿using System;
+using System.Collections.Specialized;
 using System.Linq;
-using System.Web;
 
 namespace DouCalendarService.Service.Extensions
 {
@@ -10,7 +10,7 @@ namespace DouCalendarService.Service.Extensions
         {
             var array = (from key in nvc.AllKeys
                          from value in nvc.GetValues(key)
-                         select string.Format("{0}={1}", HttpUtility.UrlEncode(key), HttpUtility.UrlEncode(value)))
+                         select string.Format("{0}={1}", Uri.EscapeDataString(key), Uri.EscapeDataString(value)))
                          .ToArray();
             return "?" + string.Join("&", array);
         }

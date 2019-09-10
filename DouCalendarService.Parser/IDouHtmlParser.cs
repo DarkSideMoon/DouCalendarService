@@ -17,5 +17,7 @@ namespace DouCalendarService.Parser
         string GetImage(string xpath);
 
         string GetIdValue(string xpath);
+
+        string GetParsedUrl(string xpath);
     }
 }

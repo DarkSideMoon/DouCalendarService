@@ -15,6 +15,7 @@ namespace DouCalendarService.Service.Dou
     {
         private const string DateTimeFormat = "yyyy-MM-dd";
         private const string EventNotFoundMessage = "Event with id {0} not found!";
+        private const string GoogleLinkDetailsMessage = "Dou event: {0} {1}";
 
         private readonly IDouHtmlParser _parser;
         private readonly IDouCalendarUrlBuilder _urlBuilder;
@@ -112,6 +113,8 @@ namespace DouCalendarService.Service.Dou
             return _googleUrlBuilder
                 .AddTitle(douEvent.Name)
                 .AddDate(douEvent.Date)
+                .AddLocation(douEvent.Location)
+                .AddDetails(string.Format(GoogleLinkDetailsMessage, douEvent.Name, douEvent.Link))
                 .Build();
         }
 
@@ -165,7 +168,8 @@ namespace DouCalendarService.Service.Dou
             {
                 Name = _parser.GetValue(GetXPath<Event>(x => x.Name)),
                 Date = _parser.GetValue(GetXPath<Event>(x => x.Date)),
-                Location = _parser.GetValue(GetXPath<Event>(x => x.Location))
+                Location = _parser.GetValue(GetXPath<Event>(x => x.Location)),
+                Link = _parser.GetParsedUrl(GetXPath<Event>(x => x.Link))
             };
         }
 

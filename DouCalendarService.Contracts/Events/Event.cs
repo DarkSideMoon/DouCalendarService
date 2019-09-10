@@ -68,6 +68,12 @@ namespace DouCalendarService.Contracts.Events
         [XPathLocation("/html/body/div[1]/div[2]/div[2]/div[2]/div[3]/span[2]")]
         public int CountOfViews { get; set; }
 
+        /// <summary>
+        /// Link of event
+        /// </summary>
+        [XPathLocation("/html/body/div[1]/div[2]/div[2]/div[2]/div[4]")]
+        public string Link { get; set; }
+
         public bool IsNullOrEmpty()
         {
             return string.IsNullOrEmpty(Name) 

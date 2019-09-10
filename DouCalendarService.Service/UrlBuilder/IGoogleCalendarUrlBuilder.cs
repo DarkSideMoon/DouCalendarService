@@ -12,7 +12,7 @@ namespace DouCalendarService.Service.UrlBuilder
 
         IGoogleCalendarUrlBuilder AddLocation(string location);
 
-        IGoogleCalendarUrlBuilder Details(string details);
+        IGoogleCalendarUrlBuilder AddDetails(string details);
 
         string Build();
     }
