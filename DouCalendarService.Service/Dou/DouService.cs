@@ -169,7 +169,13 @@ namespace DouCalendarService.Service.Dou
                 Name = _parser.GetValue(GetXPath<Event>(x => x.Name)),
                 Date = _parser.GetValue(GetXPath<Event>(x => x.Date)),
                 Location = _parser.GetValue(GetXPath<Event>(x => x.Location)),
-                Link = _parser.GetParsedUrl(GetXPath<Event>(x => x.Link))
+                Link = _parser.GetParsedUrl(GetXPath<Event>(x => x.Link)),
+                Cost = _parser.GetValue(GetXPath<Event>(x => x.Cost)),
+                Time = _parser.GetValue(GetXPath<Event>(x => x.Time)),
+                CountOfViews = _parser.GetValue(GetXPath<Event>(x => x.CountOfViews)),
+                CountOfVisitors = _parser.GetCountOfEventVisitors(GetXPath<Event>(x => x.CountOfVisitors)),
+                Topics = _parser.GetTags(GetXPath<Event>(x => x.Topics)),
+                Image = _parser.GetImage(GetXPath<Event>(x => x.Image))
             };
         }
 

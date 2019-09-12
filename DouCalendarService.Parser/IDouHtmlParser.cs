@@ -19,5 +19,7 @@ namespace DouCalendarService.Parser
         string GetIdValue(string xpath);
 
         string GetParsedUrl(string xpath);
+
+        string GetCountOfEventVisitors(string xpath);
     }
 }

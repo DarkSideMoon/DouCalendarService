@@ -14,11 +14,14 @@ namespace DouCalendarService.Parser
         private const string HrefNode = "href";
         private const string ImageNode = "src";
         private const string DataUrlNode = "data-url";
+        private const string DivNode = "div";
 
         private readonly HtmlDocument _htmlDocument;
+        private readonly IDouDateTimeParser _douDateTimeParser;
 
-        public DouHtmlParser()
+        public DouHtmlParser(IDouDateTimeParser douDateTimeParser)
         {
+            _douDateTimeParser = douDateTimeParser;
             _htmlDocument = new HtmlDocument();
         }
 
@@ -80,9 +83,6 @@ namespace DouCalendarService.Parser
         /// <returns></returns>
         public string GetValue(string xpath)
         {
-            var res = _htmlDocument.DocumentNode
-                .SelectNodes(xpath);
-
             return _htmlDocument.DocumentNode
                 .SelectNodes(xpath)
                 ?.FirstOrDefault()
@@ -133,6 +133,15 @@ namespace DouCalendarService.Parser
                 ?.FirstOrDefault()
                 .Attributes[DataUrlNode]
                 ?.Value;
+        }
+
+        public string GetCountOfEventVisitors(string xpath)
+        {
+            var element = _htmlDocument.DocumentNode
+                .SelectNodes(xpath)
+                ?.FirstOrDefault();
+
+            return (element.SelectNodes(DivNode).Count - 1).ToString();
         }
     }
 }

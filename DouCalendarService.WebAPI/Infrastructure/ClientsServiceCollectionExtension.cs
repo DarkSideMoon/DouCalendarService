@@ -9,6 +9,7 @@ namespace DouCalendarService.WebAPI.Infrastructure
     {
         public static IServiceCollection AddClientsServices(this IServiceCollection services)
         {
+            services.AddTransient<IDouDateTimeParser, DouDateTimeParser>();
             services.AddTransient<IDouHtmlParser, DouHtmlParser>();
             services.AddTransient<IDouCalendarUrlBuilder, DouCalendarUrlBuilder>();
             services.AddTransient<IGoogleCalendarUrlBuilder, GoogleCalendarUrlBuilder>();
