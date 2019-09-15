@@ -8,7 +8,7 @@ namespace DouCalendarService.Service.UrlBuilder
     {
         IGoogleCalendarUrlBuilder AddTitle(string title);
 
-        IGoogleCalendarUrlBuilder AddDate(string date);
+        IGoogleCalendarUrlBuilder AddDateTime(DateTime startDate, DateTime finishDate);
 
         IGoogleCalendarUrlBuilder AddLocation(string location);
 

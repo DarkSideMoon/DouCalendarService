@@ -1,5 +1,4 @@
 ﻿using DouCalendarService.Contracts.Common;
-using DouCalendarService.Contracts.Events;
 using DouCalendarService.Service.Dou;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;

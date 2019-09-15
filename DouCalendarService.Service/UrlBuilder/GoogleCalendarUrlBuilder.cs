@@ -1,4 +1,5 @@
 ﻿using DouCalendarService.Service.Extensions;
+using System;
 using System.Collections.Specialized;
 using System.Text;
 
@@ -22,9 +23,9 @@ namespace DouCalendarService.Service.UrlBuilder
             _queryString = new NameValueCollection();
         }
 
-        public IGoogleCalendarUrlBuilder AddDate(string date)
+        public IGoogleCalendarUrlBuilder AddDateTime(DateTime startDate, DateTime finishDate)
         {
-            _queryString.Add(DatesKey, $"{date}/{date}");
+            _queryString.Add(DatesKey, $"{startDate.ToDouDateTime()}/{finishDate.ToDouDateTime()}");
             return this;
         }
 

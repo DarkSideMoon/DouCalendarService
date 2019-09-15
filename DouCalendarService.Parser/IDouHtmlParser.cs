@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using DouCalendarService.Parser.Model;
+using System.Threading.Tasks;
 
 namespace DouCalendarService.Parser
 {
@@ -21,5 +22,7 @@ namespace DouCalendarService.Parser
         string GetParsedUrl(string xpath);
 
         string GetCountOfEventVisitors(string xpath);
+
+        DouDateTimeRange GetDouDateTime(string date, string time);
     }
 }

@@ -1,5 +1,5 @@
 ﻿using DouCalendarService.Contracts.Attributes;
-using System.Collections.Generic;
+using System;
 
 namespace DouCalendarService.Contracts.Events
 {
@@ -59,16 +59,6 @@ namespace DouCalendarService.Contracts.Events
         public string Location { get; set; }
 
         /// <summary>
-        /// Full description of event
-        /// </summary>
-        public EventDescription EventDescription { get; set; }
-
-        /// <summary>
-        /// Additional image
-        /// </summary>
-        public string AdditionalImage { get; set; }
-
-        /// <summary>
         /// Count of views event
         /// </summary>
         [XPathLocation("/html/body/div[1]/div[3]/div[2]/div[2]/div[3]/span[2]")]
@@ -79,6 +69,16 @@ namespace DouCalendarService.Contracts.Events
         /// </summary>
         [XPathLocation("/html/body/div[1]/div[3]/div[2]/div[2]/div[4]")]
         public string Link { get; set; }
+
+        /// <summary>
+        /// Start date time of event
+        /// </summary>
+        public DateTime StartDate { get; set; }
+
+        /// <summary>
+        /// Finish date time of event
+        /// </summary>
+        public DateTime FinishDate { get; set; }
 
         public bool IsNullOrEmpty()
         {

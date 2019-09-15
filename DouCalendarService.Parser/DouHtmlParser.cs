@@ -1,4 +1,5 @@
-﻿using HtmlAgilityPack;
+﻿using DouCalendarService.Parser.Model;
+using HtmlAgilityPack;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -81,41 +82,35 @@ namespace DouCalendarService.Parser
         /// </summary>
         /// <param name="xpath"></param>
         /// <returns></returns>
-        public string GetValue(string xpath)
-        {
-            return _htmlDocument.DocumentNode
-                .SelectNodes(xpath)
-                ?.FirstOrDefault()
-                ?.InnerText.Trim();
-        }
+        public string GetValue(string xpath) => 
+            _htmlDocument.DocumentNode
+            .SelectNodes(xpath)
+            ?.FirstOrDefault()
+            ?.InnerText.Trim();
 
         /// <summary>
         /// Get href value of link
         /// </summary>
         /// <param name="xpath"></param>
         /// <returns></returns>
-        public string GetHrefValue(string xpath)
-        {
-            return _htmlDocument.DocumentNode
-                .SelectNodes(xpath)
-                ?.FirstOrDefault()
-                .Attributes[HrefNode]
-                ?.Value;
-        }
+        public string GetHrefValue(string xpath) => 
+            _htmlDocument.DocumentNode
+            .SelectNodes(xpath)
+            ?.FirstOrDefault()
+            .Attributes[HrefNode]
+            ?.Value;
 
         /// <summary>
         /// Get image path
         /// </summary>
         /// <param name="xpath"></param>
         /// <returns></returns>
-        public string GetImage(string xpath)
-        {
-            return _htmlDocument.DocumentNode
-                .SelectNodes(xpath)
-                ?.FirstOrDefault()
-                .Attributes[ImageNode]
-                ?.Value;
-        }
+        public string GetImage(string xpath) => 
+            _htmlDocument.DocumentNode
+            .SelectNodes(xpath)
+            ?.FirstOrDefault()
+            .Attributes[ImageNode]
+            ?.Value;
 
         public string GetIdValue(string xpath)
         {
@@ -126,14 +121,12 @@ namespace DouCalendarService.Parser
                 .LastOrDefault();
         }
 
-        public string GetParsedUrl(string xpath)
-        {
-            return _htmlDocument.DocumentNode
-                .SelectNodes(xpath)
-                ?.FirstOrDefault()
-                .Attributes[DataUrlNode]
-                ?.Value;
-        }
+        public string GetParsedUrl(string xpath) =>
+            _htmlDocument.DocumentNode
+            .SelectNodes(xpath)
+            ?.FirstOrDefault()
+            .Attributes[DataUrlNode]
+            ?.Value;
 
         public string GetCountOfEventVisitors(string xpath)
         {
@@ -143,5 +136,9 @@ namespace DouCalendarService.Parser
 
             return (element.SelectNodes(DivNode).Count - 1).ToString();
         }
+
+        public DouDateTimeRange GetDouDateTime(string date, string time) => 
+            _douDateTimeParser.Parse(date, time);
+        
     }
 }

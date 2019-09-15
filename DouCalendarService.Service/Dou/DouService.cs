@@ -112,7 +112,7 @@ namespace DouCalendarService.Service.Dou
 
             return _googleUrlBuilder
                 .AddTitle(douEvent.Name)
-                .AddDate(douEvent.Date)
+                .AddDateTime(douEvent.StartDate, douEvent.FinishDate)
                 .AddLocation(douEvent.Location)
                 .AddDetails(string.Format(GoogleLinkDetailsMessage, douEvent.Name, douEvent.Link))
                 .Build();
@@ -164,18 +164,24 @@ namespace DouCalendarService.Service.Dou
         /// <returns></returns>
         private Event GetEvent()
         {
+            var date = _parser.GetValue(GetXPath<Event>(x => x.Date));
+            var time = _parser.GetValue(GetXPath<Event>(x => x.Time));
+
+            var dateTimeOfEvent = _parser.GetDouDateTime(date, time);
             return new Event
             {
                 Name = _parser.GetValue(GetXPath<Event>(x => x.Name)),
-                Date = _parser.GetValue(GetXPath<Event>(x => x.Date)),
+                Date = date,
+                Time = time,
                 Location = _parser.GetValue(GetXPath<Event>(x => x.Location)),
                 Link = _parser.GetParsedUrl(GetXPath<Event>(x => x.Link)),
                 Cost = _parser.GetValue(GetXPath<Event>(x => x.Cost)),
-                Time = _parser.GetValue(GetXPath<Event>(x => x.Time)),
                 CountOfViews = _parser.GetValue(GetXPath<Event>(x => x.CountOfViews)),
                 CountOfVisitors = _parser.GetCountOfEventVisitors(GetXPath<Event>(x => x.CountOfVisitors)),
                 Topics = _parser.GetTags(GetXPath<Event>(x => x.Topics)),
-                Image = _parser.GetImage(GetXPath<Event>(x => x.Image))
+                Image = _parser.GetImage(GetXPath<Event>(x => x.Image)),
+                StartDate = dateTimeOfEvent.StartDate,
+                FinishDate = dateTimeOfEvent.FinishDate
             };
         }
 
