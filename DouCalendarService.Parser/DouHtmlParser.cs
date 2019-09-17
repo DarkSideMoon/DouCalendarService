@@ -9,6 +9,7 @@ namespace DouCalendarService.Parser
     public class DouHtmlParser : IDouHtmlParser
     {
         private const string EventsCountXPath = "/html/body/div[1]/div[4]/div/div[2]/div/div/div[1]";
+        private const string AdvertiseTopHeader = "//*[@id=\"topinfo\"]";
         private const string ArticleNode = "article";
         private const string ChildHrefNode = "a";
         private const string ChildHrefSeperatorNode = ";";
@@ -139,6 +140,14 @@ namespace DouCalendarService.Parser
 
         public DouDateTimeRange GetDouDateTime(string date, string time) => 
             _douDateTimeParser.Parse(date, time);
-        
+
+        public bool IsHasAdvertiseHeader()
+        {
+            var element = _htmlDocument.DocumentNode
+                .SelectNodes(AdvertiseTopHeader)
+                ?.FirstOrDefault();
+
+            return element != null;
+        }
     }
 }

@@ -24,5 +24,7 @@ namespace DouCalendarService.Parser
         string GetCountOfEventVisitors(string xpath);
 
         DouDateTimeRange GetDouDateTime(string date, string time);
+
+        bool IsHasAdvertiseHeader();
     }
 }

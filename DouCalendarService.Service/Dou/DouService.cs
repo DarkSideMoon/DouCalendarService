@@ -164,22 +164,27 @@ namespace DouCalendarService.Service.Dou
         /// <returns></returns>
         private Event GetEvent()
         {
-            var date = _parser.GetValue(GetXPath<Event>(x => x.Date));
-            var time = _parser.GetValue(GetXPath<Event>(x => x.Time));
+            var indexOfDivElement = Event.IndexOfDiv;
+
+            if (_parser.IsHasAdvertiseHeader())
+                indexOfDivElement = Event.IndexOfDivWithHeader;
+
+            var date = _parser.GetValue(string.Format(GetXPath<Event>(x => x.Date), indexOfDivElement));
+            var time = _parser.GetValue(string.Format(GetXPath<Event>(x => x.Time), indexOfDivElement));
 
             var dateTimeOfEvent = _parser.GetDouDateTime(date, time);
             return new Event
             {
-                Name = _parser.GetValue(GetXPath<Event>(x => x.Name)),
+                Name = _parser.GetValue(string.Format(GetXPath<Event>(x => x.Name), indexOfDivElement)),
                 Date = date,
                 Time = time,
-                Location = _parser.GetValue(GetXPath<Event>(x => x.Location)),
-                Link = _parser.GetParsedUrl(GetXPath<Event>(x => x.Link)),
-                Cost = _parser.GetValue(GetXPath<Event>(x => x.Cost)),
-                CountOfViews = _parser.GetValue(GetXPath<Event>(x => x.CountOfViews)),
-                CountOfVisitors = _parser.GetCountOfEventVisitors(GetXPath<Event>(x => x.CountOfVisitors)),
-                Topics = _parser.GetTags(GetXPath<Event>(x => x.Topics)),
-                Image = _parser.GetImage(GetXPath<Event>(x => x.Image)),
+                Location = _parser.GetValue(string.Format(GetXPath<Event>(x => x.Location), indexOfDivElement)),
+                Link = _parser.GetParsedUrl(string.Format(GetXPath<Event>(x => x.Link), indexOfDivElement)),
+                Cost = _parser.GetValue(string.Format(GetXPath<Event>(x => x.Cost), indexOfDivElement)),
+                CountOfViews = _parser.GetValue(string.Format(GetXPath<Event>(x => x.CountOfViews), indexOfDivElement)),
+                CountOfVisitors = _parser.GetCountOfEventVisitors(string.Format(GetXPath<Event>(x => x.CountOfVisitors), indexOfDivElement)),
+                Topics = _parser.GetTags(string.Format(GetXPath<Event>(x => x.Topics), indexOfDivElement)),
+                Image = _parser.GetImage(string.Format(GetXPath<Event>(x => x.Image), indexOfDivElement)),
                 StartDate = dateTimeOfEvent.StartDate,
                 FinishDate = dateTimeOfEvent.FinishDate
             };

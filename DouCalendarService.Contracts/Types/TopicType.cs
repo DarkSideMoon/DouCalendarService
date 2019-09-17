@@ -39,5 +39,74 @@ namespace DouCalendarService.Contracts.Types
 
         [EnumMember(Value = "DevOps")]
         DevOps = 12,
+
+        [EnumMember(Value = "Front-end")]
+        FrontEnd = 13,
+
+        [EnumMember(Value = "gamedev")]
+        GameDev = 14,
+
+        [EnumMember(Value = "hardware")]
+        HardWare = 15,
+
+        [EnumMember(Value = "highload")]
+        Highload = 16,
+
+        [EnumMember(Value = "HR")]
+        Hr = 17,
+
+        [EnumMember(Value = "iOS")]
+        Ios = 18,
+
+        [EnumMember(Value = "IoT")]
+        Iot = 19,
+
+        [EnumMember(Value = "Java")]
+        Java = 20,
+
+        [EnumMember(Value = "JavaScript")]
+        JavaScript = 21,
+
+        [EnumMember(Value = "Linux")]
+        Linux = 22,
+
+        [EnumMember(Value = "PHP")]
+        PHP = 23,
+
+        [EnumMember(Value = "Python")]
+        Python = 24,
+
+        [EnumMember(Value = "QA")]
+        QA = 25,
+
+        [EnumMember(Value = "Scala")]
+        Scala = 26,
+
+        [EnumMember(Value = "Scrum")]
+        Scrum = 27,
+
+        [EnumMember(Value = "Solution Architecture")]
+        SolutionArchitecture = 28,
+
+        [EnumMember(Value = "конференция")]
+        Conference = 29,
+
+        [EnumMember(Value = "курсы")]
+        Course = 30,
+
+        [EnumMember(Value = "менеджмент")]
+        Management = 31,
+
+        [EnumMember(Value = "митап")]
+        Mitap = 32,
+
+        [EnumMember(Value = "вебинар")]
+        Webinar = 33,
+
+        [EnumMember(Value = "хакатон")]
+        Hackathon = 34,
+
+        [EnumMember(Value = "английский")]
+        English = 35
     }
 }
