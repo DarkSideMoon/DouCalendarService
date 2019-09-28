@@ -56,7 +56,7 @@ namespace DouCalendarService.Service.MessageBuilder
 
         public IMessageBuilder AddPrice(string price)
         {
-            _stringBuilder.Append(string.Format(BoldMessage, price));
+            _stringBuilder.Append(string.Format(ItalicMessage, price));
             NewLine();
             return this;
         }

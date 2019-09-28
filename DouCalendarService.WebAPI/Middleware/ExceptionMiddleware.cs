@@ -13,12 +13,10 @@ namespace DouCalendarService.WebAPI.Middleware
     public class ExceptionMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public ExceptionMiddleware(RequestDelegate next, IHostingEnvironment hostingEnvironment)
+        public ExceptionMiddleware(RequestDelegate next)
         {
             _next = next;
-            _hostingEnvironment = hostingEnvironment;
         }
 
         public async Task InvokeAsync(HttpContext httpContext)

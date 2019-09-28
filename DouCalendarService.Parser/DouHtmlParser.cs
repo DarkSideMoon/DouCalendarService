@@ -135,7 +135,7 @@ namespace DouCalendarService.Parser
                 .SelectNodes(xpath)
                 ?.FirstOrDefault();
 
-            return (element.SelectNodes(DivNode).Count - 1).ToString();
+            return (element?.SelectNodes(DivNode).Count - 1).ToString();
         }
 
         public DouDateTimeRange GetDouDateTime(string date, string time) => 
