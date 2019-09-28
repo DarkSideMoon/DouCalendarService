@@ -33,7 +33,7 @@ namespace DouCalendarService.WebAPI.Controllers
         [ProducesResponseType(typeof(ErrorResponse), 404)]
         public async Task<IActionResult> GetEventById(string id)
         {
-            LogRequestInformation(new[] { id });
+            LogRequestInformation(id);
 
             var result = await _douService.GetEventById(id);
 
@@ -52,8 +52,11 @@ namespace DouCalendarService.WebAPI.Controllers
         [ProducesResponseType(typeof(IEnumerable<ShortEvent>), 200)]
         public async Task<IActionResult> GetEventsOnDay(string date)
         {
+            LogRequestInformation(date);
+
             var result = await _douService.GetEventsOnDay(date);
 
+            LogResponseInformation(result);
             return Ok(result);
         }
 
@@ -68,8 +71,11 @@ namespace DouCalendarService.WebAPI.Controllers
         [ProducesResponseType(typeof(IEnumerable<ShortEvent>), 200)]
         public async Task<IActionResult> GetEventsByLocation(LocationType location)
         {
+            LogRequestInformation(location.ToString());
+
             var result = await _douService.GetEventsByLocation(location);
 
+            LogResponseInformation(result);
             return Ok(result);
         }
 
@@ -84,8 +90,11 @@ namespace DouCalendarService.WebAPI.Controllers
         [ProducesResponseType(typeof(IEnumerable<ShortEvent>), 200)]
         public async Task<IActionResult> GetEventsByTopic(TopicType topic)
         {
+            LogRequestInformation(topic.ToString());
+
             var result = await _douService.GetEventsByTopic(topic);
 
+            LogResponseInformation(result);
             return Ok(result);
         }
     }

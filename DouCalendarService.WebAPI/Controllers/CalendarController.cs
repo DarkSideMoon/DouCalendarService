@@ -30,7 +30,7 @@ namespace DouCalendarService.WebAPI.Controllers
         [ProducesResponseType(typeof(ErrorResponse), 404)]
         public async Task<IActionResult> GetGoogleCalendarLinkById(string id)
         {
-            LogRequestInformation(new[] { id });
+            LogRequestInformation(id);
 
             var result = await _douService.CreateGoogleLink(id);
 

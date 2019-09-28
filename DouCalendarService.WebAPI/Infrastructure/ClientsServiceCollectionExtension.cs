@@ -1,5 +1,6 @@
 ﻿using DouCalendarService.Parser;
 using DouCalendarService.Service.Dou;
+using DouCalendarService.Service.Security;
 using DouCalendarService.Service.UrlBuilder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,6 +15,7 @@ namespace DouCalendarService.WebAPI.Infrastructure
             services.AddTransient<IDouCalendarUrlBuilder, DouCalendarUrlBuilder>();
             services.AddTransient<IGoogleCalendarUrlBuilder, GoogleCalendarUrlBuilder>();
             services.AddTransient<IDouService, DouService>();
+            services.AddTransient<ITokenManagementService, TokenManagementService>();
 
             return services;
         }

@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using DouCalendarService.WebAPI.Infrastructure;
 using DouCalendarService.WebAPI.Middleware;
 using Serilog;
+using DouCalendarService.Service.Configuration;
 
 namespace DouCalendarService.WebAPI
 {
@@ -20,11 +21,16 @@ namespace DouCalendarService.WebAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var tokenConfig = Configuration.GetSection("tokenConfig")
+                .Get<TokenConfig>();
+            services.AddSingleton(tokenConfig);
+
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddSwaggerService();
             services.AddClientsServices();
+            services.AddJwtTokenAuthentication(tokenConfig);
         }
 
         public void Configure(IApplicationBuilder app, 
