@@ -21,16 +21,16 @@ namespace DouCalendarService.WebAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var tokenConfig = Configuration.GetSection("tokenConfig")
-                .Get<TokenConfig>();
-            services.AddSingleton(tokenConfig);
+            var serviceConfig = Configuration.GetSection("service")
+                .Get<ServiceConfig>();
+            services.AddSingleton(serviceConfig);
 
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddSwaggerService();
             services.AddClientsServices();
-            services.AddJwtTokenAuthentication(tokenConfig);
+            services.AddJwtTokenAuthentication(serviceConfig);
         }
 
         public void Configure(IApplicationBuilder app, 

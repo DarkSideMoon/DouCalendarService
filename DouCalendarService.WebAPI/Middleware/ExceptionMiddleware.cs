@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using DouCalendarService.Contracts.Common;
 using DouCalendarService.Contracts.Exceptions;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;

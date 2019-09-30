@@ -12,16 +12,16 @@ namespace DouCalendarService.Service.Security
     {
         private readonly IJwtSignEncodingKey _jwtSignEncodingKey;
         private readonly IJwtEncryptEncodingKey _jwtEncryptEncodingKey;
-        private readonly TokenConfig _tokenConfig;
+        private readonly ServiceConfig _serviceConfig;
 
         public TokenManagementService(
             IJwtSignEncodingKey jwtSignEncodingKey,
             IJwtEncryptEncodingKey jwtEncryptEncodingKey,
-            TokenConfig tokenConfig)
+            ServiceConfig serviceConfig)
         {
             _jwtSignEncodingKey = jwtSignEncodingKey;
             _jwtEncryptEncodingKey = jwtEncryptEncodingKey;
-            _tokenConfig = tokenConfig;
+            _serviceConfig = serviceConfig;
         }
 
         public string GenerateToken()
@@ -34,11 +34,11 @@ namespace DouCalendarService.Service.Security
             var tokenHandler = new JwtSecurityTokenHandler();
 
             var token = tokenHandler.CreateJwtSecurityToken(
-                _tokenConfig.Issuer,
-                _tokenConfig.Audience,
+                _serviceConfig.TokenConfig.Issuer,
+                _serviceConfig.TokenConfig.Audience,
                 new ClaimsIdentity(claims),
                 DateTime.Now,
-                DateTime.Now.AddMinutes(_tokenConfig.AccessExpiration),
+                DateTime.Now.AddMinutes(_serviceConfig.TokenConfig.AccessExpiration),
                 DateTime.Now,
                 new SigningCredentials(_jwtSignEncodingKey.GetKey(), _jwtSignEncodingKey.SigningAlgorithm),
                 new EncryptingCredentials(_jwtEncryptEncodingKey.GetKey(), _jwtEncryptEncodingKey.SigningAlgorithm,

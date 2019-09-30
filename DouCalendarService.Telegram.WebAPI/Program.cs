@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 
-namespace DouCalendarService.WebAPI
+namespace DouCalendarService.Telegram.WebAPI
 {
     public class Program
     {

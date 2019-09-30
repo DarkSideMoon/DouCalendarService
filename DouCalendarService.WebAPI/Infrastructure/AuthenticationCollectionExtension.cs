@@ -11,10 +11,10 @@ namespace DouCalendarService.WebAPI.Infrastructure
 {
     public static class AuthenticationCollectionExtension
     {
-        public static IServiceCollection AddJwtTokenAuthentication(this IServiceCollection services, TokenConfig tokenConfig)
+        public static IServiceCollection AddJwtTokenAuthentication(this IServiceCollection services, ServiceConfig serviceConfig)
         {
-            var signKey = new SignSymmetricKey(tokenConfig.SignSecretKey);
-            var encryptKey = new EncryptSymmetricKey(tokenConfig.EncodingSecretKey);
+            var signKey = new SignSymmetricKey(serviceConfig.TokenConfig.SignSecretKey);
+            var encryptKey = new EncryptSymmetricKey(serviceConfig.TokenConfig.EncodingSecretKey);
 
             services.AddSingleton<IJwtSignEncodingKey>(signKey);
             services.AddSingleton<IJwtEncryptEncodingKey>(encryptKey);
@@ -31,10 +31,10 @@ namespace DouCalendarService.WebAPI.Infrastructure
                     IssuerSigningKey = ((IJwtSignDecodingKey)signKey).GetKey(),
                     TokenDecryptionKey = ((IJwtEncryptDecodingKey)encryptKey).GetKey(),
 
-                    ValidIssuer = tokenConfig.Issuer,
+                    ValidIssuer = serviceConfig.TokenConfig.Issuer,
                     ValidateIssuer = true,
 
-                    ValidAudience = tokenConfig.Audience,
+                    ValidAudience = serviceConfig.TokenConfig.Audience,
                     ValidateAudience = true,
 
                     ClockSkew = TimeSpan.FromSeconds(5)
