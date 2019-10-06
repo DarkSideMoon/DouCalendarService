@@ -33,15 +33,10 @@ namespace DouCalendarService.WebAPI
             services.AddJwtTokenAuthentication(serviceConfig);
         }
 
-        public void Configure(IApplicationBuilder app, 
-            IHostingEnvironment env, 
+        public void Configure(IApplicationBuilder app,
             IApplicationLifetime applicationLifetime)
         {
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("../swagger/v1/swagger.json", $"{DocumentationVariables.ServiceApiName} V1");
-            });
+            app.AddSwagger();
 
             app.UseMiddleware<ExceptionMiddleware>();
 

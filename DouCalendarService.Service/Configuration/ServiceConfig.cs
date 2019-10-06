@@ -7,8 +7,5 @@ namespace DouCalendarService.Service.Configuration
     {
         [JsonProperty("tokenConfig")]
         public TokenConfig TokenConfig { get; set; }
-
-        [JsonProperty("telegramClientKey")]
-        public string TelegramClientKey { get; set; }
     }
 }
