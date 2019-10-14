@@ -1,9 +1,5 @@
 ﻿using DouCalendarService.Telegram.Service.Bot;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
 
@@ -28,7 +24,7 @@ namespace DouCalendarService.Telegram.WebAPI.Controllers
         }
 
         [HttpPost]
-        public async void Post([FromBody] Update update)
+        public async Task Post([FromBody] Update update)
         {
             await _botService.ExecuteMessageAsync(update);
         }

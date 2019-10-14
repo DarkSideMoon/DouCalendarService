@@ -8,13 +8,13 @@ namespace DouCalendarService.Contracts.Events
         /// <summary>
         /// Standard index of div elements
         /// </summary>
-        public const int IndexOfDiv = 3;
+        public static readonly int IndexOfDiv = 3;
 
         /// <summary>
         /// Sometimes web site add advertise header 
         /// As a result, standard divs + 1 to get div of elements
         /// </summary>
-        public const int IndexOfDivWithHeader = IndexOfDiv + 1;
+        public static readonly int IndexOfDivWithHeader = IndexOfDiv + 1;
 
         /// <summary>
         /// Name of event

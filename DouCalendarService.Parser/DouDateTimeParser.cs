@@ -81,7 +81,7 @@ namespace DouCalendarService.Parser
             };
         }
 
-        private DateTime ParseDateTime(string value, int numberOfMonth, int douDate)
+        private static DateTime ParseDateTime(string value, int numberOfMonth, int douDate)
         {
             var douTimeArray = value.Split(':');
 
@@ -94,7 +94,7 @@ namespace DouCalendarService.Parser
             return parsedDate;
         }
 
-        private string ReplaceLargeDashOnSmallAndSpaces(string time)
+        private static string ReplaceLargeDashOnSmallAndSpaces(string time)
         {
             if (time.Contains(LargeDash))
                 return time
@@ -104,7 +104,7 @@ namespace DouCalendarService.Parser
             return time;
         }
 
-        private int GetNumberOfMonthByName(string name)
+        private static int GetNumberOfMonthByName(string name)
         {
             return MonthMapper
                 .FirstOrDefault(x => x.Value.Contains(name))
