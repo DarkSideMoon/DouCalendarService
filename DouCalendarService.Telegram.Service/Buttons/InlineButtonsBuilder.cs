@@ -8,7 +8,7 @@ namespace DouCalendarService.Telegram.Service.Buttons
         {
             var keys = new[]
             {
-                new InlineKeyboardButton[]
+                new[]
                 {
                     new InlineKeyboardButton
                     {
@@ -21,7 +21,7 @@ namespace DouCalendarService.Telegram.Service.Buttons
                         CallbackData = "Location"
                     }
                 },
-                new InlineKeyboardButton[]
+                new[]
                 {
                     new InlineKeyboardButton
                     {
@@ -34,17 +34,52 @@ namespace DouCalendarService.Telegram.Service.Buttons
                         CallbackData = "Email"
                     }
                 },
-                new InlineKeyboardButton[]
+                new[]
                 {
                     new InlineKeyboardButton
                     {
-                        Text = "📫 За темою",
-                        CallbackData = "Topic"
+                        Text = "⚙️ Про розробку",
+                        CallbackData = "Develop"
                     },
                     new InlineKeyboardButton
                     {
                         Text = "📊 Статус",
                         CallbackData = "Status"
+                    }
+                }
+            };
+
+            return new InlineKeyboardMarkup(keys);
+        }
+
+        public InlineKeyboardMarkup BuilDateMenu()
+        {
+            var keys = new[]
+            {
+                new[]
+                {
+                    new InlineKeyboardButton
+                    {
+                        Text = "📅 Сьогодні",
+                        CallbackData = "Today"
+                    },
+                    new InlineKeyboardButton
+                    {
+                        Text = "📅 Завтра",
+                        CallbackData = "Tomorrow"
+                    }
+                },
+                new[]
+                {
+                    new InlineKeyboardButton
+                    {
+                        Text = "📍 Вибраний день",
+                        CallbackData = "Custom"
+                    },
+                    new InlineKeyboardButton
+                    {
+                        Text = "🔙 Повернутись",
+                        CallbackData = "Back"
                     }
                 }
             };

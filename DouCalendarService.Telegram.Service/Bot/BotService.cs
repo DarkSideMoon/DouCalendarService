@@ -18,6 +18,8 @@ namespace DouCalendarService.Telegram.Service.Bot
         private const string WarningStatus = "️⚠️ Сервіс має певні збої у роботі";
         private const string HealthStatus = "✅ Сервіс працює коректно";
 
+        private const string LocationText = "Введіть назву локації по якій хочете дізнатись події";
+
         private readonly TelegramBotClient _telegramBotClient;
         private readonly IInlineButtonsBuilder _inlineButtonsBuilder;
         private readonly IDouCalendarClient _douCalendarClient;
@@ -82,9 +84,13 @@ namespace DouCalendarService.Telegram.Service.Bot
             {
                 case "Status":
                     await _telegramBotClient.SendTextMessageAsync(callbackQuery.Message.Chat.Id, HealthStatus);
-                    await AnswerCallback(callbackQuery);
+                    break;
+                case "Location":
+                    await _telegramBotClient.SendTextMessageAsync(callbackQuery.Message.Chat.Id, LocationText);
                     break;
             }
+
+            await AnswerCallback(callbackQuery);
         }
 
         private async Task AnswerCallback(CallbackQuery callbackQuery)

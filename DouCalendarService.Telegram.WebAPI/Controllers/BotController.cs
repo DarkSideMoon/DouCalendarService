@@ -18,15 +18,11 @@ namespace DouCalendarService.Telegram.WebAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
-        {
-            return Ok();
-        }
+        public IActionResult Get() 
+            => Ok();
 
         [HttpPost]
-        public async Task Post([FromBody] Update update)
-        {
-            await _botService.ExecuteMessageAsync(update);
-        }
+        public async Task Post([FromBody] Update update) 
+            => await _botService.ExecuteMessageAsync(update);
     }
 }

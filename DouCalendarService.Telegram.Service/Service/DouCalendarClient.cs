@@ -1,4 +1,5 @@
 ﻿using DouCalendarService.Telegram.Service.Configuration;
+using DouCalendarService.Telegram.Service.Model;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,9 @@ namespace DouCalendarService.Telegram.Service.Service
     {
         private static readonly string LocationTypeEndpoint = "/types/location";
         private static readonly string LocationTopicEndpoint = "/types/topic";
+        private static readonly string EventByDateEndpoint = "/day/{0}";
+        private static readonly string EventByLocationEndpoint = "/city/{0}";
+        private static readonly string EventByTopicEndpoint = "/topic/{0}";
 
         private readonly HttpClient _httpClient;
         private readonly DouCalendarMicroserviceConfig _config;
@@ -21,24 +25,42 @@ namespace DouCalendarService.Telegram.Service.Service
             _config = config;
         }
 
+        public async Task<IEnumerable<ShortEvent>> GetEventsByDateAsync(string date)
+        {
+            var endpoint = string.Format(EventByDateEndpoint, date);
+            return await GetDouCalendarDataAsync<IEnumerable<ShortEvent>>(endpoint);
+        }
+
+        public async Task<IEnumerable<ShortEvent>> GetEventsByLocationAsync(string location)
+        {
+            var endpoint = string.Format(EventByLocationEndpoint, location);
+            return await GetDouCalendarDataAsync<IEnumerable<ShortEvent>>(endpoint);
+        }
+
+        public async Task<IEnumerable<ShortEvent>> GetEventsByTopicAsync(string topic)
+        {
+            var endpoint = string.Format(EventByTopicEndpoint, topic);
+            return await GetDouCalendarDataAsync<IEnumerable<ShortEvent>>(endpoint);
+        }
+
         public async Task<IEnumerable<string>> GetLocationTypesAsync()
         {
-            var requestUri = new Uri(string.Concat(_config.MicroserviceUri, LocationTypeEndpoint));
-
-            var response = await _httpClient.GetAsync(requestUri);
-            var result = await response.Content.ReadAsStringAsync();
-
-            return JsonConvert.DeserializeObject<IEnumerable<string>>(result);
+            return await GetDouCalendarDataAsync<IEnumerable<string>>(LocationTypeEndpoint);
         }
 
         public async Task<IEnumerable<string>> GetTopicTypesAsync()
         {
-            var requestUri = new Uri(string.Concat(_config.MicroserviceUri, LocationTopicEndpoint));
+            return await GetDouCalendarDataAsync<IEnumerable<string>>(LocationTopicEndpoint);
+        }
+
+        private async Task<T> GetDouCalendarDataAsync<T>(string endpoint)
+        {
+            var requestUri = new Uri(string.Concat(_config.MicroserviceUri, endpoint));
 
             var response = await _httpClient.GetAsync(requestUri);
             var result = await response.Content.ReadAsStringAsync();
 
-            return JsonConvert.DeserializeObject<IEnumerable<string>>(result);
+            return JsonConvert.DeserializeObject<T>(result);
         }
     }
 }
