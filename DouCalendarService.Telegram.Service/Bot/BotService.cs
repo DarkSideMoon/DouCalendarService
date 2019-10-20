@@ -1,7 +1,6 @@
-﻿using System.Threading.Tasks;
-using DouCalendarService.Telegram.Service.Buttons;
-using DouCalendarService.Telegram.Service.Model;
-using Microsoft.Extensions.Localization;
+﻿using DouCalendarService.Telegram.Service.Buttons;
+using DouCalendarService.Telegram.Service.Service;
+using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -21,15 +20,16 @@ namespace DouCalendarService.Telegram.Service.Bot
 
         private readonly TelegramBotClient _telegramBotClient;
         private readonly IInlineButtonsBuilder _inlineButtonsBuilder;
-        private readonly IStringLocalizer<ResourceText> _localizer;
+        private readonly IDouCalendarClient _douCalendarClient;
 
-        public BotService(TelegramBotClient telegramBotClient,
+        public BotService(
+            TelegramBotClient telegramBotClient,
             IInlineButtonsBuilder inlineButtonsBuilder,
-            IStringLocalizer<ResourceText> localizer)
+            IDouCalendarClient douCalendarClient)
         {
             _telegramBotClient = telegramBotClient;
             _inlineButtonsBuilder = inlineButtonsBuilder;
-            _localizer = localizer;
+            _douCalendarClient = douCalendarClient;
         }
 
         public async Task ExecuteMessageAsync(Update update)
@@ -62,6 +62,14 @@ namespace DouCalendarService.Telegram.Service.Bot
                     break;
                 case "/help":
                     await _telegramBotClient.SendTextMessageAsync(message.Chat.Id, Help);
+                    break;
+                case "/topics":
+                    var topics = await _douCalendarClient.GetTopicTypesAsync();
+                    await _telegramBotClient.SendTextMessageAsync(message.Chat.Id, string.Join("\r\n", topics));
+                    break;
+                case "/locations":
+                    var locations = await _douCalendarClient.GetLocationTypesAsync();
+                    await _telegramBotClient.SendTextMessageAsync(message.Chat.Id, string.Join("\r\n", locations));
                     break;
             }
         }
