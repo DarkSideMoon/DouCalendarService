@@ -1,5 +1,7 @@
 ﻿using DouCalendarService.Telegram.Service.Buttons;
+using DouCalendarService.Telegram.Service.MessageBuilder;
 using DouCalendarService.Telegram.Service.Service;
+using System;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -19,19 +21,24 @@ namespace DouCalendarService.Telegram.Service.Bot
         private const string HealthStatus = "✅ Сервіс працює коректно";
 
         private const string LocationText = "Введіть назву локації по якій хочете дізнатись події";
+        private const string TopicText = "Введіть назву теми по якій хочете дізнатись події";
+        private const string DateText = "Введіть дату у форматі DD-MM-YYYY по якому хочете дізнатись події";
 
         private readonly TelegramBotClient _telegramBotClient;
         private readonly IInlineButtonsBuilder _inlineButtonsBuilder;
         private readonly IDouCalendarClient _douCalendarClient;
+        private readonly IDouMessageBuilder _messageBuilder;
 
         public BotService(
             TelegramBotClient telegramBotClient,
             IInlineButtonsBuilder inlineButtonsBuilder,
-            IDouCalendarClient douCalendarClient)
+            IDouCalendarClient douCalendarClient,
+            IDouMessageBuilder messageBuilder)
         {
             _telegramBotClient = telegramBotClient;
             _inlineButtonsBuilder = inlineButtonsBuilder;
             _douCalendarClient = douCalendarClient;
+            _messageBuilder = messageBuilder;
         }
 
         public async Task ExecuteMessageAsync(Update update)
@@ -45,6 +52,11 @@ namespace DouCalendarService.Telegram.Service.Bot
             if (update.Type == UpdateType.CallbackQuery)
             {
                 await ExecuteCallbackQuery(update);
+            }
+
+            if (update.Type == UpdateType.Message)
+            {
+                await ExecuteUserMessageText(update);
             }
         }
 
@@ -73,6 +85,8 @@ namespace DouCalendarService.Telegram.Service.Bot
                     var locations = await _douCalendarClient.GetLocationTypesAsync();
                     await _telegramBotClient.SendTextMessageAsync(message.Chat.Id, string.Join("\r\n", locations));
                     break;
+                default:
+                    break;
             }
         }
 
@@ -85,12 +99,33 @@ namespace DouCalendarService.Telegram.Service.Bot
                 case "Status":
                     await _telegramBotClient.SendTextMessageAsync(callbackQuery.Message.Chat.Id, HealthStatus);
                     break;
-                case "Location":
+                case "EventByLocation":
                     await _telegramBotClient.SendTextMessageAsync(callbackQuery.Message.Chat.Id, LocationText);
+                    break;
+                case "EventByDate":
+                    await _telegramBotClient.SendTextMessageAsync(callbackQuery.Message.Chat.Id, DateText);
+                    break;
+                default:
                     break;
             }
 
             await AnswerCallback(callbackQuery);
+        }
+
+        private async Task ExecuteUserMessageText(Update update)
+        {
+            var userMassage = update.Message;
+
+            var isMessageDateTime = DateTime.TryParse(userMassage.Text, out var eventDateTime);
+            if(isMessageDateTime)
+            {
+                var result = await _douCalendarClient
+                    .GetEventsByDateAsync(eventDateTime.ToShortDateString());
+
+                var text = _messageBuilder.BuildShortEventMessage(result);
+
+                await _telegramBotClient.SendTextMessageAsync(userMassage.Chat.Id, text, ParseMode.Markdown);
+            }
         }
 
         private async Task AnswerCallback(CallbackQuery callbackQuery)

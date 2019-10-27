@@ -12,9 +12,9 @@ namespace DouCalendarService.Telegram.Service.Service
     {
         private static readonly string LocationTypeEndpoint = "/types/location";
         private static readonly string LocationTopicEndpoint = "/types/topic";
-        private static readonly string EventByDateEndpoint = "/day/{0}";
-        private static readonly string EventByLocationEndpoint = "/city/{0}";
-        private static readonly string EventByTopicEndpoint = "/topic/{0}";
+        private static readonly string EventByDateEndpoint = "/event/day/{0}";
+        private static readonly string EventByLocationEndpoint = "/event/city/{0}";
+        private static readonly string EventByTopicEndpoint = "/event/topic/{0}";
 
         private readonly HttpClient _httpClient;
         private readonly DouCalendarMicroserviceConfig _config;

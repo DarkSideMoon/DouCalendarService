@@ -1,5 +1,6 @@
 ﻿using DouCalendarService.Telegram.Service.Bot;
 using DouCalendarService.Telegram.Service.Buttons;
+using DouCalendarService.Telegram.Service.MessageBuilder;
 using DouCalendarService.Telegram.Service.Service;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,6 +13,7 @@ namespace DouCalendarService.Telegram.WebAPI.Infrastructure
             services.AddTransient<IBotService, BotService>();
             services.AddTransient<IInlineButtonsBuilder, InlineButtonsBuilder>();
             services.AddTransient<IDouCalendarClient, DouCalendarClient>();
+            services.AddTransient<IDouMessageBuilder, DouMessageBuilder>();
 
             return services;
         }

@@ -13,12 +13,12 @@ namespace DouCalendarService.Telegram.Service.Buttons
                     new InlineKeyboardButton
                     {
                         Text = "📅 За датою",
-                        CallbackData = "Date"
+                        CallbackData = "EventByDate"
                     },
                     new InlineKeyboardButton
                     {
                         Text = "🌎 За локацією",
-                        CallbackData = "Location"
+                        CallbackData = "EventByLocation"
                     }
                 },
                 new[]
@@ -45,41 +45,6 @@ namespace DouCalendarService.Telegram.Service.Buttons
                     {
                         Text = "📊 Статус",
                         CallbackData = "Status"
-                    }
-                }
-            };
-
-            return new InlineKeyboardMarkup(keys);
-        }
-
-        public InlineKeyboardMarkup BuilDateMenu()
-        {
-            var keys = new[]
-            {
-                new[]
-                {
-                    new InlineKeyboardButton
-                    {
-                        Text = "📅 Сьогодні",
-                        CallbackData = "Today"
-                    },
-                    new InlineKeyboardButton
-                    {
-                        Text = "📅 Завтра",
-                        CallbackData = "Tomorrow"
-                    }
-                },
-                new[]
-                {
-                    new InlineKeyboardButton
-                    {
-                        Text = "📍 Вибраний день",
-                        CallbackData = "Custom"
-                    },
-                    new InlineKeyboardButton
-                    {
-                        Text = "🔙 Повернутись",
-                        CallbackData = "Back"
                     }
                 }
             };
