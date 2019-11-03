@@ -8,7 +8,7 @@ namespace DouCalendarService.Parser
 {
     public class DouHtmlParser : IDouHtmlParser
     {
-        private const string EventsCountXPath = "/html/body/div[1]/div[4]/div/div[2]/div/div/div[1]";
+        private const string EventsCountXPath = "/html/body/div[1]/div[3]/div/div[2]/div/div/div[1]";
         private const string AdvertiseTopHeader = "//*[@id=\"topinfo\"]";
         private const string ArticleNode = "article";
         private const string ChildHrefNode = "a";
@@ -49,6 +49,9 @@ namespace DouCalendarService.Parser
         /// <returns></returns>
         public int GetEventsCount()
         {
+            //var test = _htmlDocument.DocumentNode
+            //    .SelectNodes(EventsCountXPath);
+
             var element = _htmlDocument.DocumentNode
                 .SelectNodes(EventsCountXPath)
                 .FirstOrDefault();
