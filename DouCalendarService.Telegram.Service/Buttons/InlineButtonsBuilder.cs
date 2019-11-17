@@ -26,7 +26,7 @@ namespace DouCalendarService.Telegram.Service.Buttons
                     new InlineKeyboardButton
                     {
                         Text = "📗 За темою",
-                        CallbackData = "Topic"
+                        CallbackData = "EventByTopic"
                     },
                     new InlineKeyboardButton
                     {
