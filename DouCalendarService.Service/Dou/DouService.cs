@@ -8,11 +8,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace DouCalendarService.Service.Dou
 {
     public class DouService : IDouService
     {
+        private const int DefaultPageRecordsCount = 5;
         private const string DateTimeFormat = "yyyy-MM-dd";
         private const string EventNotFoundMessage = "Event with id {0} not found!";
         private const string GoogleLinkDetailsMessage = "Dou event: {0} {1}";
@@ -55,7 +57,7 @@ namespace DouCalendarService.Service.Dou
         /// </summary>
         /// <param name="dateTime"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<ShortEvent>> GetEventsOnDay(string dateTime)
+        public async Task<IEnumerable<ShortEvent>> GetEventsOnDay(string dateTime, int? page, int? count)
         {
             DateTime.TryParse(dateTime, out var date);
 
@@ -64,7 +66,11 @@ namespace DouCalendarService.Service.Dou
                 .Build();
             await _parser.LoadHtmlPage(url);
 
-            return GetShortEvents();
+            var shortEvents = GetShortEvents();
+
+            return shortEvents
+                .Skip((GetTakePage(page) - 1) * GetTakeCount(count))
+                .Take(GetTakeCount(count));
         }
 
         /// <summary>
@@ -72,14 +78,18 @@ namespace DouCalendarService.Service.Dou
         /// </summary>
         /// <param name="locationType"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<ShortEvent>> GetEventsByLocation(LocationType locationType)
+        public async Task<IEnumerable<ShortEvent>> GetEventsByLocation(LocationType locationType, int? page, int? count)
         {
             var url = _urlBuilder
                 .AddCity(AttributeHelper.GetEnumMemberValue(locationType, typeof(LocationType)))
                 .Build();
             await _parser.LoadHtmlPage(url);
 
-            return GetShortEvents();
+            var shortEvents = GetShortEvents();
+
+            return shortEvents
+                .Skip((GetTakePage(page) - 1) * GetTakeCount(count))
+                .Take(GetTakeCount(count));
         }
 
         /// <summary>
@@ -87,7 +97,7 @@ namespace DouCalendarService.Service.Dou
         /// </summary>
         /// <param name="topic"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<ShortEvent>> GetEventsByTopic(TopicType topic)
+        public async Task<IEnumerable<ShortEvent>> GetEventsByTopic(TopicType topic, int? page, int? count)
         {
             var url = _urlBuilder
                 .AddTag(AttributeHelper.GetEnumMemberValue(topic, typeof(TopicType)))
@@ -95,7 +105,11 @@ namespace DouCalendarService.Service.Dou
 
             await _parser.LoadHtmlPage(url);
 
-            return GetShortEvents();
+            var shortEvents = GetShortEvents();
+
+            return shortEvents
+                .Skip((GetTakePage(page) - 1) * GetTakeCount(count))
+                .Take(GetTakeCount(count));
         }
 
         /// <summary>
@@ -193,6 +207,16 @@ namespace DouCalendarService.Service.Dou
         private static string GetXPath<T>(Expression<Func<T, string>> func)
         {
             return AttributeHelper.GetXPathLocationValue(func);
+        }
+
+        private static int GetTakePage(int? page)
+        {
+            return page ?? 1;
+        }
+
+        private static int GetTakeCount(int? count)
+        {
+            return count ?? DefaultPageRecordsCount;
         }
     }
 }

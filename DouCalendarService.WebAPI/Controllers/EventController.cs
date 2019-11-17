@@ -45,16 +45,18 @@ namespace DouCalendarService.WebAPI.Controllers
         /// Get events by day
         /// </summary>
         /// <param name="date">Day of event</param>
+        /// <param name="page">Page for pagination</param>
+        /// <param name="count">Count for pagination</param>
         /// <returns></returns>
         /// <response code="200">Return find events by day</response>
         [HttpGet]
         [Route("day/{date}")]
         [ProducesResponseType(typeof(IEnumerable<ShortEvent>), 200)]
-        public async Task<IActionResult> GetEventsOnDay(string date)
+        public async Task<IActionResult> GetEventsOnDay(string date, int? page, int? count)
         {
             LogRequestInformation(date);
 
-            var result = await _douService.GetEventsOnDay(date);
+            var result = await _douService.GetEventsOnDay(date, page, count);
 
             LogResponseInformation(result);
             return Ok(result);
@@ -64,16 +66,18 @@ namespace DouCalendarService.WebAPI.Controllers
         /// Get events by location
         /// </summary>
         /// <param name="location">Location of event</param>
+        /// <param name="page">Page for pagination</param>
+        /// <param name="count">Count for pagination</param>
         /// <returns></returns>
         /// <response code="200">Return find events by location</response>
         [HttpGet]
         [Route("city/{location}")]
         [ProducesResponseType(typeof(IEnumerable<ShortEvent>), 200)]
-        public async Task<IActionResult> GetEventsByLocation(LocationType location)
+        public async Task<IActionResult> GetEventsByLocation(LocationType location, int? page, int? count)
         {
             LogRequestInformation(location.ToString());
 
-            var result = await _douService.GetEventsByLocation(location);
+            var result = await _douService.GetEventsByLocation(location, page, count);
 
             LogResponseInformation(result);
             return Ok(result);
@@ -83,16 +87,18 @@ namespace DouCalendarService.WebAPI.Controllers
         /// Get events by topic
         /// </summary>
         /// <param name="topic">Topic of event</param>
+        /// <param name="page">Page for pagination</param>
+        /// <param name="count">Count for pagination</param>
         /// <returns></returns>
         /// <response code="200">Return find events by topic</response>
         [HttpGet]
         [Route("topic/{topic}")]
         [ProducesResponseType(typeof(IEnumerable<ShortEvent>), 200)]
-        public async Task<IActionResult> GetEventsByTopic(TopicType topic)
+        public async Task<IActionResult> GetEventsByTopic(TopicType topic, int? page, int? count)
         {
             LogRequestInformation(topic.ToString());
 
-            var result = await _douService.GetEventsByTopic(topic);
+            var result = await _douService.GetEventsByTopic(topic, page, count);
 
             LogResponseInformation(result);
             return Ok(result);

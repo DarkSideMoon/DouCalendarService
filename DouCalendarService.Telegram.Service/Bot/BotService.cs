@@ -18,10 +18,6 @@ namespace DouCalendarService.Telegram.Service.Bot
         private const string Start = "Привіт! Даний бот для отримання інформації про dou календар подій. Обери позицію з меню пошуку";
         private const string Version = "Версія боту: v1.0.0.0";
 
-        private const string ErrorStatus = "❌ Сервіс має критичну помилку";
-        private const string WarningStatus = "️⚠️ Сервіс має певні збої у роботі";
-        private const string HealthStatus = "✅ Сервіс працює коректно";
-
         private const string LocationText = "Введіть назву локації по якій хочете дізнатись події";
         private const string TopicText = "Введіть назву теми по якій хочете дізнатись події";
         private const string DateText = "Введіть дату у форматі DD-MM-YYYY по якому хочете дізнатись події";
@@ -101,9 +97,6 @@ namespace DouCalendarService.Telegram.Service.Bot
 
             switch (callbackQuery.Data)
             {
-                case "Status":
-                    await _telegramBotClient.SendTextMessageAsync(callbackQuery.Message.Chat.Id, HealthStatus);
-                    break;
                 case "EventByLocation":
                     await _telegramBotClient.SendTextMessageAsync(callbackQuery.Message.Chat.Id, LocationText);
                     break;
