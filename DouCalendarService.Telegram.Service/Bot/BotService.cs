@@ -2,6 +2,7 @@
 using DouCalendarService.Telegram.Service.MessageBuilder;
 using DouCalendarService.Telegram.Service.Model;
 using DouCalendarService.Telegram.Service.Service;
+using Microsoft.Extensions.Localization;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,35 +16,27 @@ namespace DouCalendarService.Telegram.Service.Bot
     {
         private const string BotCommandSymbol = "/";
 
-        private const string About = "Даний бот створений для отримання сповіщення про різні події у ІТ спільності";
-        private const string Help = "Для отримання підтримки або повідомлення про помилку - напишіть мені на почту - ";
-        private const string Start = "Привіт! Даний бот для отримання інформації про dou календар подій. Обери позицію з меню пошуку";
-        private const string Version = "Версія боту: v*1.0.0.0*";
-
-        private const string LocationText = "Введіть назву локації по якій хочете дізнатись події";
-        private const string TopicText = "Введіть назву теми по якій хочете дізнатись події";
-        private const string DateText = "Введіть дату у форматі *DD-MM-YYYY* по якому хочете дізнатись події";
-
-        private const string NotFoundEventErrorMessage = "За даною подіює *{0}* нічого не знайдено!";
-
         private readonly TelegramBotClient _telegramBotClient;
         private readonly IInlineButtonsBuilder _inlineButtonsBuilder;
         private readonly IDouCalendarClient _douCalendarClient;
         private readonly IDouMessageBuilder _messageBuilder;
         private readonly DouCalendarSetting _douCalendarSetting;
+        private readonly IStringLocalizer _localizer;
 
         public BotService(
             TelegramBotClient telegramBotClient,
             IInlineButtonsBuilder inlineButtonsBuilder,
             IDouCalendarClient douCalendarClient,
             IDouMessageBuilder messageBuilder,
-            DouCalendarSetting douCalendarSetting)
+            DouCalendarSetting douCalendarSetting,
+            IStringLocalizer localizer)
         {
             _telegramBotClient = telegramBotClient;
             _inlineButtonsBuilder = inlineButtonsBuilder;
             _douCalendarClient = douCalendarClient;
             _messageBuilder = messageBuilder;
             _douCalendarSetting = douCalendarSetting;
+            _localizer = localizer;
         }
 
         public async Task ExecuteMessageAsync(Update update)
@@ -72,16 +65,19 @@ namespace DouCalendarService.Telegram.Service.Bot
             {
                 case "/start":
                     await _telegramBotClient
-                        .SendTextMessageAsync(message.Chat.Id, Start, replyMarkup: _inlineButtonsBuilder.BuildMainMenu());
+                        .SendTextMessageAsync(
+                        message.Chat.Id,
+                        _localizer[Constants.Localization.StartKey],
+                        replyMarkup: _inlineButtonsBuilder.BuildMainMenu());
                     break;
                 case "/about":
-                    await _telegramBotClient.SendTextMessageAsync(message.Chat.Id, About);
+                    await _telegramBotClient.SendTextMessageAsync(message.Chat.Id, _localizer[Constants.Localization.AboutKey]);
                     break;
                 case "/version":
-                    await _telegramBotClient.SendTextMessageAsync(message.Chat.Id, Version);
+                    await _telegramBotClient.SendTextMessageAsync(message.Chat.Id, _localizer[Constants.Localization.VersionKey]);
                     break;
                 case "/help":
-                    await _telegramBotClient.SendTextMessageAsync(message.Chat.Id, Help);
+                    await _telegramBotClient.SendTextMessageAsync(message.Chat.Id, _localizer[Constants.Localization.HelpKey]);
                     break;
                 case "/topics":
                     var topics = _douCalendarSetting.Topics;
@@ -103,13 +99,20 @@ namespace DouCalendarService.Telegram.Service.Bot
             switch (callbackQuery.Data)
             {
                 case "EventByLocation":
-                    await _telegramBotClient.SendTextMessageAsync(callbackQuery.Message.Chat.Id, LocationText);
+                    await _telegramBotClient.SendTextMessageAsync(
+                        callbackQuery.Message.Chat.Id, 
+                        _localizer[Constants.Localization.LocationTextKey]);
                     break;
                 case "EventByDate":
-                    await _telegramBotClient.SendTextMessageAsync(callbackQuery.Message.Chat.Id, DateText, ParseMode.Markdown);
+                    await _telegramBotClient.SendTextMessageAsync(
+                        callbackQuery.Message.Chat.Id, 
+                        _localizer[Constants.Localization.DateTextKey], 
+                        ParseMode.Markdown);
                     break;
                 case "EventByTopic":
-                    await _telegramBotClient.SendTextMessageAsync(callbackQuery.Message.Chat.Id, TopicText);
+                    await _telegramBotClient.SendTextMessageAsync(
+                        callbackQuery.Message.Chat.Id,
+                        _localizer[Constants.Localization.TopicTextKey]);
                     break;
                 default:
                     break;
@@ -143,7 +146,10 @@ namespace DouCalendarService.Telegram.Service.Bot
             }
 
             await _telegramBotClient
-                .SendTextMessageAsync(chatId, string.Format(NotFoundEventErrorMessage, userText), ParseMode.Markdown);
+                .SendTextMessageAsync(
+                chatId, 
+                string.Format(_localizer[Constants.Localization.NotFoundEventErrorMessageKey], userText), 
+                ParseMode.Markdown);
         }
 
         private async Task ExecuteEventByLocation(long chatId, string userText)
