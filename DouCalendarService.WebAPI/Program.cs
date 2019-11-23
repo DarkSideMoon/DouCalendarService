@@ -1,7 +1,9 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Serilog;
 
 namespace DouCalendarService.WebAPI
@@ -31,9 +33,11 @@ namespace DouCalendarService.WebAPI
             WebHost.CreateDefaultBuilder(args)
              .ConfigureLogging((hostingContext, config) =>
              {
+                 config.ClearProviders();
                  _environmentName = hostingContext.HostingEnvironment.EnvironmentName;
              })
             .UseStartup<Startup>()
+            .UseSerilog()
             .Build();
     }
 }

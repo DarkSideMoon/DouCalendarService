@@ -49,7 +49,7 @@ namespace DouCalendarService.WebAPI
 
             applicationLifetime.ApplicationStarted.Register(() =>
             {
-                Log.Information($"{DocumentationVariables.ServiceApiName} App has been started.");
+                Log.Information("{ServiceApiName} App has been started", DocumentationVariables.ServiceApiName);
             });
         }
     }
