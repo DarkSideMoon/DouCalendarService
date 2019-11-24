@@ -119,7 +119,7 @@ namespace DouCalendarService.Service.Dou
         /// <returns></returns>
         public async Task<string> CreateGoogleLink(string id)
         {
-            var douEvent = await GetEventById(id);
+            var douEvent = await GetEventById(id).ConfigureAwait(false);
 
             if (douEvent.IsNullOrEmpty())
                 throw new EventNotFoundException(string.Format(EventNotFoundMessage, id));

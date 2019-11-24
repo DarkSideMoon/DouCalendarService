@@ -26,16 +26,17 @@ namespace DouCalendarService.WebAPI.Middleware
             }
             catch (EventNotFoundException ex)
             {
-                await HandleExceptionAsync(httpContext, ex, ex.Message, StatusCodes.Status404NotFound);
+                await HandleExceptionAsync(httpContext, ex, ex.Message, StatusCodes.Status404NotFound)
+                    .ConfigureAwait(false);
             }
             catch (Exception ex)
             {
                 await HandleExceptionAsync(httpContext, ex, "Internal Server Error",
-                    StatusCodes.Status500InternalServerError);
+                    StatusCodes.Status500InternalServerError).ConfigureAwait(false);
             }
         }
 
-        protected Task HandleExceptionAsync(HttpContext context, Exception exception, string message, 
+        protected static Task HandleExceptionAsync(HttpContext context, Exception exception, string message, 
             int statusCode)
         {
             Log.Warning(exception, message);
@@ -45,7 +46,7 @@ namespace DouCalendarService.WebAPI.Middleware
 
             var errorResponse = CreateErrorResponse(context, message);
             var errorResponseJson = JsonConvert.SerializeObject(errorResponse, 
-                new JsonSerializerSettings()
+                new JsonSerializerSettings
                 {
                     ContractResolver = new CamelCasePropertyNamesContractResolver()
                 });
@@ -53,7 +54,7 @@ namespace DouCalendarService.WebAPI.Middleware
             return context.Response.WriteAsync(errorResponseJson);
         }
 
-        protected ErrorResponse CreateErrorResponse(HttpContext context, string message)
+        protected static ErrorResponse CreateErrorResponse(HttpContext context, string message)
         {
             return new ErrorResponse(context.Response.StatusCode.ToString(), message);
         }

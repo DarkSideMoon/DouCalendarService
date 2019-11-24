@@ -24,7 +24,6 @@ namespace DouCalendarService.Telegram.WebAPI
             var config = Configuration.GetSection("service").Get<ServiceConfig>();
             services.AddSingleton(new DouCalendarMicroserviceConfig(config.MicroserviceUri));
 
-            services.AddLocalization(options => options.ResourcesPath = "Resources");
             services.ConfigureCore();
 
             services.AddTelegramBotClient(new TokenConfig

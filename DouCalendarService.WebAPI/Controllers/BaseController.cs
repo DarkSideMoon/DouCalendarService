@@ -7,17 +7,17 @@ namespace DouCalendarService.WebAPI.Controllers
     {
         private static readonly ILogger Logger = Log.ForContext<BaseController>();
 
-        protected void LogRequestInformation(string parameter)
+        protected static void LogRequestInformation(string parameter)
         {
             Logger.Information("Log request: {@parameters}", parameter);
         }
 
-        protected void LogRequestInformation(string[] parameters)
+        protected static void LogRequestInformation(string[] parameters)
         {
             Logger.Information("Log request: {@parameters}", parameters);
         }
 
-        protected void LogResponseInformation(object response)
+        protected static void LogResponseInformation(object response)
         {
             Logger.Information("Log response: {@parameter}", response);
         }

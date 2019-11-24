@@ -8,7 +8,7 @@ namespace DouCalendarService.Telegram.WebAPI.Localization
 {
     public class BotStringLocalizer : IStringLocalizer
     {
-        private Dictionary<string, Dictionary<string, string>> resources;
+        private readonly Dictionary<string, Dictionary<string, string>> resources;
 
         public LocalizedString this[string name, params object[] arguments] => throw new NotImplementedException();
 
@@ -34,7 +34,7 @@ namespace DouCalendarService.Telegram.WebAPI.Localization
 
         public BotStringLocalizer()
         {
-            var uaDictionary = new Dictionary<string, string>()
+            var uaDictionary = new Dictionary<string, string>
             {
                 { Constants.Localization.StartKey, Constants.Localization.Start },
                 { Constants.Localization.AboutKey, Constants.Localization.About },
@@ -48,7 +48,7 @@ namespace DouCalendarService.Telegram.WebAPI.Localization
                 { Constants.Localization.NotFoundEventErrorMessageKey, Constants.Localization.NotFoundEventErrorMessage }
             };
 
-            resources = new Dictionary<string, Dictionary<string, string>>()
+            resources = new Dictionary<string, Dictionary<string, string>>
             {
                 { Constants.Localization.UaCultureName, uaDictionary }
             };

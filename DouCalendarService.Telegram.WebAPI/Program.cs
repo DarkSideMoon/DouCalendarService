@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Serilog;
 
 namespace DouCalendarService.Telegram.WebAPI
@@ -31,10 +32,11 @@ namespace DouCalendarService.Telegram.WebAPI
             WebHost.CreateDefaultBuilder(args)
              .ConfigureLogging((hostingContext, config) =>
              {
-                 //config.ClearProviders();
+                 config.ClearProviders();
                  _environmentName = hostingContext.HostingEnvironment.EnvironmentName;
              })
             .UseStartup<Startup>()
+            .UseSerilog()
             .Build();
     }
 }

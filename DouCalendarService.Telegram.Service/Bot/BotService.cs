@@ -44,18 +44,18 @@ namespace DouCalendarService.Telegram.Service.Bot
             var message = update.Message;
             if (message?.Type == MessageType.Text && message.Text.Contains(BotCommandSymbol))
             {
-                await ExecuteMessageText(message);
+                await ExecuteMessageText(message).ConfigureAwait(false);
                 return;
             }
 
             if (update.Type == UpdateType.CallbackQuery)
             {
-                await ExecuteCallbackQuery(update);
+                await ExecuteCallbackQuery(update).ConfigureAwait(false);
             }
 
             if (update.Type == UpdateType.Message)
             {
-                await ExecuteUserMessageText(update);
+                await ExecuteUserMessageText(update).ConfigureAwait(false);
             }
         }
 
@@ -88,7 +88,7 @@ namespace DouCalendarService.Telegram.Service.Bot
                     await _telegramBotClient.SendTextMessageAsync(message.Chat.Id, string.Join("\r\n", locations));
                     break;
                 default:
-                    break;
+                    return;
             }
         }
 
@@ -118,7 +118,7 @@ namespace DouCalendarService.Telegram.Service.Bot
                     break;
             }
 
-            await AnswerCallback(callbackQuery);
+            await AnswerCallback(callbackQuery).ConfigureAwait(false);
         }
 
         private async Task ExecuteUserMessageText(Update update)
@@ -130,19 +130,19 @@ namespace DouCalendarService.Telegram.Service.Bot
             var isMessageDateTime = DateTime.TryParse(userText, out var eventDateTime);
             if(isMessageDateTime)
             {
-                await ExecuteEventByDay(chatId, eventDateTime);
+                await ExecuteEventByDay(chatId, eventDateTime).ConfigureAwait(false);
             }
 
             var isMessageTopic = _douCalendarSetting.Topics.Any(x => x.ToLower() == userText.ToLower());
             if(isMessageTopic)
             {
-                await ExecuteEventByTopic(chatId, userText);
+                await ExecuteEventByTopic(chatId, userText).ConfigureAwait(false);
             }
 
             var isMessageLocation = _douCalendarSetting.Locations.Any(x => x.ToLower() == userText.ToLower());
             if(isMessageLocation)
             {
-                await ExecuteEventByLocation(chatId, userText);
+                await ExecuteEventByLocation(chatId, userText).ConfigureAwait(false);
             }
 
             await _telegramBotClient

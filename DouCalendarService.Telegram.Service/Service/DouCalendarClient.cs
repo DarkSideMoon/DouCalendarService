@@ -28,29 +28,29 @@ namespace DouCalendarService.Telegram.Service.Service
         public async Task<IEnumerable<ShortEvent>> GetEventsByDateAsync(string date)
         {
             var endpoint = string.Format(EventByDateEndpoint, date);
-            return await GetDouCalendarDataAsync<IEnumerable<ShortEvent>>(endpoint);
+            return await GetDouCalendarDataAsync<IEnumerable<ShortEvent>>(endpoint).ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<ShortEvent>> GetEventsByLocationAsync(string location)
         {
             var endpoint = string.Format(EventByLocationEndpoint, location);
-            return await GetDouCalendarDataAsync<IEnumerable<ShortEvent>>(endpoint);
+            return await GetDouCalendarDataAsync<IEnumerable<ShortEvent>>(endpoint).ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<ShortEvent>> GetEventsByTopicAsync(string topic)
         {
             var endpoint = string.Format(EventByTopicEndpoint, topic);
-            return await GetDouCalendarDataAsync<IEnumerable<ShortEvent>>(endpoint);
+            return await GetDouCalendarDataAsync<IEnumerable<ShortEvent>>(endpoint).ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<string>> GetLocationTypesAsync()
         {
-            return await GetDouCalendarDataAsync<IEnumerable<string>>(LocationTypeEndpoint);
+            return await GetDouCalendarDataAsync<IEnumerable<string>>(LocationTypeEndpoint).ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<string>> GetTopicTypesAsync()
         {
-            return await GetDouCalendarDataAsync<IEnumerable<string>>(LocationTopicEndpoint);
+            return await GetDouCalendarDataAsync<IEnumerable<string>>(LocationTopicEndpoint).ConfigureAwait(false);
         }
 
         private async Task<T> GetDouCalendarDataAsync<T>(string endpoint)

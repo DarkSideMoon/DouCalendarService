@@ -2,6 +2,6 @@
 {
     public static class DocumentationVariables
     {
-        public const string ServiceApiName = "Dou calendar API";
+        public static readonly string ServiceApiName = "Dou calendar API";
     }
 }

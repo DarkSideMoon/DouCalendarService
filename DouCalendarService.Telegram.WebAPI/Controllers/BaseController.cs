@@ -7,12 +7,12 @@ namespace DouCalendarService.Telegram.WebAPI.Controllers
     {
         private static readonly ILogger Logger = Log.ForContext<BaseController>();
 
-        protected void LogRequestInformation(string parameter)
+        protected static void LogRequestInformation(string parameter)
         {
             Logger.Information("Log request: {@parameters}", parameter);
         }
 
-        protected void LogResponseInformation(object response)
+        protected static void LogResponseInformation(object response)
         {
             Logger.Information("Log response: {@parameter}", response);
         }
