@@ -49,9 +49,6 @@ namespace DouCalendarService.Parser
         /// <returns></returns>
         public int GetEventsCount()
         {
-            //var test = _htmlDocument.DocumentNode
-            //    .SelectNodes(EventsCountXPath);
-
             var element = _htmlDocument.DocumentNode
                 .SelectNodes(EventsCountXPath)
                 .FirstOrDefault();

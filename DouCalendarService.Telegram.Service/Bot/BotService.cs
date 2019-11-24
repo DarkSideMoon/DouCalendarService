@@ -5,6 +5,7 @@ using DouCalendarService.Telegram.Service.Service;
 using Microsoft.Extensions.Localization;
 using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -15,6 +16,7 @@ namespace DouCalendarService.Telegram.Service.Bot
     public class BotService : IBotService
     {
         private const string BotCommandSymbol = "/";
+        private const string RegexNumberPattern = @"\d+";
 
         private readonly TelegramBotClient _telegramBotClient;
         private readonly IInlineButtonsBuilder _inlineButtonsBuilder;
@@ -74,7 +76,9 @@ namespace DouCalendarService.Telegram.Service.Bot
                     await _telegramBotClient.SendTextMessageAsync(message.Chat.Id, _localizer[Constants.Localization.AboutKey]);
                     break;
                 case "/version":
-                    await _telegramBotClient.SendTextMessageAsync(message.Chat.Id, _localizer[Constants.Localization.VersionKey]);
+                    await _telegramBotClient.SendTextMessageAsync(message.Chat.Id, 
+                        _localizer[Constants.Localization.VersionKey],
+                        ParseMode.Markdown);
                     break;
                 case "/help":
                     await _telegramBotClient.SendTextMessageAsync(message.Chat.Id, _localizer[Constants.Localization.HelpKey]);
@@ -114,6 +118,11 @@ namespace DouCalendarService.Telegram.Service.Bot
                         callbackQuery.Message.Chat.Id,
                         _localizer[Constants.Localization.TopicTextKey]);
                     break;
+                case "AddEventToGoogleCalendar":
+                    await _telegramBotClient.SendTextMessageAsync(
+                        callbackQuery.Message.Chat.Id,
+                        _localizer[Constants.Localization.AddEventToGoogleCalendarTextKey]);
+                    break;
                 default:
                     break;
             }
@@ -131,18 +140,28 @@ namespace DouCalendarService.Telegram.Service.Bot
             if(isMessageDateTime)
             {
                 await ExecuteEventByDay(chatId, eventDateTime).ConfigureAwait(false);
+                return;
             }
 
             var isMessageTopic = _douCalendarSetting.Topics.Any(x => x.ToLower() == userText.ToLower());
             if(isMessageTopic)
             {
                 await ExecuteEventByTopic(chatId, userText).ConfigureAwait(false);
+                return;
             }
 
             var isMessageLocation = _douCalendarSetting.Locations.Any(x => x.ToLower() == userText.ToLower());
             if(isMessageLocation)
             {
                 await ExecuteEventByLocation(chatId, userText).ConfigureAwait(false);
+                return;
+            }
+
+            var messageNumberIdMatch = new Regex(RegexNumberPattern).Match(userText.ToLower());
+            if (messageNumberIdMatch.Success)
+            {
+                await ExecuteEventByAddToGoogleCalendar(chatId, messageNumberIdMatch.Value).ConfigureAwait(false);
+                return;
             }
 
             await _telegramBotClient
@@ -174,6 +193,12 @@ namespace DouCalendarService.Telegram.Service.Bot
             var eventBydateText = _messageBuilder.BuildShortEventMessage(eventBydate);
 
             await _telegramBotClient.SendTextMessageAsync(chatId, eventBydateText, ParseMode.Markdown);
+        }
+
+        private async Task ExecuteEventByAddToGoogleCalendar(long chatId, string id)
+        {
+            var googleCalendarLink = await _douCalendarClient.GetGoogleCalendarLink(id);
+            await _telegramBotClient.SendTextMessageAsync(chatId, googleCalendarLink, ParseMode.Markdown);
         }
 
         private async Task AnswerCallback(CallbackQuery callbackQuery)

@@ -15,5 +15,7 @@ namespace DouCalendarService.Telegram.Service.Service
         Task<IEnumerable<ShortEvent>> GetEventsByTopicAsync(string topic);
 
         Task<IEnumerable<ShortEvent>> GetEventsByLocationAsync(string location);
+
+        Task<string> GetGoogleCalendarLink(string id);
     }
 }

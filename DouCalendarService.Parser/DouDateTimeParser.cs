@@ -59,7 +59,7 @@ namespace DouCalendarService.Parser
             };
         }
 
-        private DouDateTimeRange ParseDateTimeSame(string value, int numberOfMonth, int douDate)
+        private static DouDateTimeRange ParseDateTimeSame(string value, int numberOfMonth, int douDate)
         {
             var parsedDateStart = ParseDateTime(value, numberOfMonth, douDate);
             return new DouDateTimeRange
@@ -69,7 +69,7 @@ namespace DouCalendarService.Parser
             };
         }
 
-        private DouDateTimeRange ParseDateTimeRange(string value, int numberOfMonth, int douDate)
+        private static DouDateTimeRange ParseDateTimeRange(string value, int numberOfMonth, int douDate)
         {
             var timeArray = value.Split(SmallDash);
             var parsedDateStart = ParseDateTime(timeArray[0], numberOfMonth, douDate);

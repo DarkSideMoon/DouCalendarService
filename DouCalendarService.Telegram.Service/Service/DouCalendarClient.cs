@@ -15,6 +15,7 @@ namespace DouCalendarService.Telegram.Service.Service
         private static readonly string EventByDateEndpoint = "/event/day/{0}";
         private static readonly string EventByLocationEndpoint = "/event/city/{0}";
         private static readonly string EventByTopicEndpoint = "/event/topic/{0}";
+        private static readonly string AddToGoogleCalendarEndpoint = "/calendar/google/{0}";
 
         private readonly HttpClient _httpClient;
         private readonly DouCalendarMicroserviceConfig _config;
@@ -41,6 +42,12 @@ namespace DouCalendarService.Telegram.Service.Service
         {
             var endpoint = string.Format(EventByTopicEndpoint, topic);
             return await GetDouCalendarDataAsync<IEnumerable<ShortEvent>>(endpoint).ConfigureAwait(false);
+        }
+
+        public async Task<string> GetGoogleCalendarLink(string id)
+        {
+            var endpoint = string.Format(AddToGoogleCalendarEndpoint, id);
+            return await GetDouCalendarDataAsync<string>(endpoint).ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<string>> GetLocationTypesAsync()

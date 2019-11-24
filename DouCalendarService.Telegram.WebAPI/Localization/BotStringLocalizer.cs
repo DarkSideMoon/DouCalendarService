@@ -44,6 +44,7 @@ namespace DouCalendarService.Telegram.WebAPI.Localization
                 { Constants.Localization.LocationTextKey, Constants.Localization.LocationText },
                 { Constants.Localization.TopicTextKey, Constants.Localization.TopicText },
                 { Constants.Localization.DateTextKey, Constants.Localization.DateText },
+                { Constants.Localization.AddEventToGoogleCalendarTextKey, Constants.Localization.AddEventToGoogleCalendar },
 
                 { Constants.Localization.NotFoundEventErrorMessageKey, Constants.Localization.NotFoundEventErrorMessage }
             };

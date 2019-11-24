@@ -30,8 +30,8 @@ namespace DouCalendarService.Telegram.Service.Buttons
                     },
                     new InlineKeyboardButton
                     {
-                        Text = "📫 Пошта",
-                        CallbackData = "Email"
+                        Text = "📆 Додати до календарю",
+                        CallbackData = "AddEventToGoogleCalendar"
                     }
                 },
                 new[]

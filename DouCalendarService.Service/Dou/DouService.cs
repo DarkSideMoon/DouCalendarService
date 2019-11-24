@@ -121,15 +121,7 @@ namespace DouCalendarService.Service.Dou
         {
             var douEvent = await GetEventById(id).ConfigureAwait(false);
 
-            if (douEvent.IsNullOrEmpty())
-                throw new EventNotFoundException(string.Format(EventNotFoundMessage, id));
-
-            return _googleUrlBuilder
-                .AddTitle(douEvent.Name)
-                .AddDateTime(douEvent.StartDate, douEvent.FinishDate)
-                .AddLocation(douEvent.Location)
-                .AddDetails(string.Format(GoogleLinkDetailsMessage, douEvent.Name, douEvent.Link))
-                .Build();
+            return GenerateGoogleLink(id, douEvent);
         }
 
         /// <summary>
@@ -202,6 +194,25 @@ namespace DouCalendarService.Service.Dou
                 StartDate = dateTimeOfEvent.StartDate,
                 FinishDate = dateTimeOfEvent.FinishDate
             };
+        }
+
+        /// <summary>
+        /// Method to generate google link
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="douEvent"></param>
+        /// <returns></returns>
+        private string GenerateGoogleLink(string id, Event douEvent)
+        {
+            if (douEvent.IsNullOrEmpty())
+                throw new EventNotFoundException(string.Format(EventNotFoundMessage, id));
+
+            return _googleUrlBuilder
+                .AddTitle(douEvent.Name)
+                .AddDateTime(douEvent.StartDate, douEvent.FinishDate)
+                .AddDetails(string.Format(GoogleLinkDetailsMessage, douEvent.Name, douEvent.Link))
+                .AddLocation(douEvent.Location)
+                .Build();
         }
 
         private static string GetXPath<T>(Expression<Func<T, string>> func)

@@ -17,7 +17,7 @@ namespace DouCalendarService.WebAPI.HealthChecks
         }
 
         public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context,
-            CancellationToken cancellationToken = new CancellationToken())
+            CancellationToken cancellationToken = default)
         {
             var result = await _httpClient.GetAsync(DouUrl, cancellationToken);
             return result.IsSuccessStatusCode ? HealthCheckResult.Healthy() : HealthCheckResult.Unhealthy();
