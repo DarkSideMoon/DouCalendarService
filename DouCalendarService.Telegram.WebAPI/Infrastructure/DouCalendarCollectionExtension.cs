@@ -15,7 +15,7 @@ namespace DouCalendarService.Telegram.WebAPI.Infrastructure
             var locations = 
                 Task.Run(async () => await douCalendarClient.GetLocationTypesAsync().ConfigureAwait(true)).Result;
 
-            services.AddSingleton(new DouCalendarSetting(topics, locations));
+            services.AddSingleton(new DouCalendarSetting(topics, locations, true));
 
             return services;
         }

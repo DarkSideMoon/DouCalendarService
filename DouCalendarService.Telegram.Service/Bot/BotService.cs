@@ -1,4 +1,5 @@
 ﻿using DouCalendarService.Telegram.Service.Buttons;
+using DouCalendarService.Telegram.Service.Kafka;
 using DouCalendarService.Telegram.Service.MessageBuilder;
 using DouCalendarService.Telegram.Service.Model;
 using DouCalendarService.Telegram.Service.Service;
@@ -17,6 +18,7 @@ namespace DouCalendarService.Telegram.Service.Bot
     {
         private const string BotCommandSymbol = "/";
         private const string RegexNumberPattern = @"\d+";
+        private const string UserInput = "User input event: {0}";
 
         private readonly TelegramBotClient _telegramBotClient;
         private readonly IInlineButtonsBuilder _inlineButtonsBuilder;
@@ -24,6 +26,7 @@ namespace DouCalendarService.Telegram.Service.Bot
         private readonly IDouMessageBuilder _messageBuilder;
         private readonly DouCalendarSetting _douCalendarSetting;
         private readonly IStringLocalizer _localizer;
+        private readonly IBotEventMessageProducer _botEventMessageProducer;
 
         public BotService(
             TelegramBotClient telegramBotClient,
@@ -31,7 +34,8 @@ namespace DouCalendarService.Telegram.Service.Bot
             IDouCalendarClient douCalendarClient,
             IDouMessageBuilder messageBuilder,
             DouCalendarSetting douCalendarSetting,
-            IStringLocalizer localizer)
+            IStringLocalizer localizer,
+            IBotEventMessageProducer botEventMessageProducer)
         {
             _telegramBotClient = telegramBotClient;
             _inlineButtonsBuilder = inlineButtonsBuilder;
@@ -39,6 +43,7 @@ namespace DouCalendarService.Telegram.Service.Bot
             _messageBuilder = messageBuilder;
             _douCalendarSetting = douCalendarSetting;
             _localizer = localizer;
+            _botEventMessageProducer = botEventMessageProducer;
         }
 
         public async Task ExecuteMessageAsync(Update update)
@@ -63,6 +68,7 @@ namespace DouCalendarService.Telegram.Service.Bot
 
         private async Task ExecuteMessageText(Message message)
         {
+            await ProduceBotEvent(string.Format(UserInput, message.Text));
             switch (message.Text)
             {
                 case "/start":
@@ -136,22 +142,24 @@ namespace DouCalendarService.Telegram.Service.Bot
             var userText = userMassage.Text;
             var chatId = userMassage.Chat.Id;
 
+            await ProduceBotEvent(string.Format(UserInput, userText));
+
             var isMessageDateTime = DateTime.TryParse(userText, out var eventDateTime);
-            if(isMessageDateTime)
+            if (isMessageDateTime)
             {
                 await ExecuteEventByDay(chatId, eventDateTime).ConfigureAwait(false);
                 return;
             }
 
             var isMessageTopic = _douCalendarSetting.Topics.Any(x => x.ToLower() == userText.ToLower());
-            if(isMessageTopic)
+            if (isMessageTopic)
             {
                 await ExecuteEventByTopic(chatId, userText).ConfigureAwait(false);
                 return;
             }
 
             var isMessageLocation = _douCalendarSetting.Locations.Any(x => x.ToLower() == userText.ToLower());
-            if(isMessageLocation)
+            if (isMessageLocation)
             {
                 await ExecuteEventByLocation(chatId, userText).ConfigureAwait(false);
                 return;
@@ -166,9 +174,17 @@ namespace DouCalendarService.Telegram.Service.Bot
 
             await _telegramBotClient
                 .SendTextMessageAsync(
-                chatId, 
-                string.Format(_localizer[Constants.Localization.NotFoundEventErrorMessageKey], userText), 
+                chatId,
+                string.Format(_localizer[Constants.Localization.NotFoundEventErrorMessageKey], userText),
                 ParseMode.Markdown);
+        }
+
+        private async Task ProduceBotEvent(string text)
+        {
+            if (_douCalendarSetting.IsKafkaEventMessageProduce)
+                await _botEventMessageProducer
+                    .ProduceMessageAsync(text)
+                    .ConfigureAwait(false);
         }
 
         private async Task ExecuteEventByLocation(long chatId, string userText)

@@ -8,10 +8,13 @@ namespace DouCalendarService.Telegram.Service.Model
 
         public IEnumerable<string> Locations { get; }
 
-        public DouCalendarSetting(IEnumerable<string> topics, IEnumerable<string> locations)
+        public bool IsKafkaEventMessageProduce { get; }
+
+        public DouCalendarSetting(IEnumerable<string> topics, IEnumerable<string> locations, bool isKafkaEventMessageProduce)
         {
             Topics = topics;
             Locations = locations;
+            IsKafkaEventMessageProduce = isKafkaEventMessageProduce;
         }
     }
 }

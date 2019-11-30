@@ -10,7 +10,9 @@ namespace DouCalendarService.Telegram.WebAPI
 {
     public class Startup
     {
-        private const string _httpClientName = "httpService";
+        private const string HttpClientName = "httpService";
+        private const string KafkaSectionName = "kafka";
+        private const string ServiceSectionName = "service";
 
         public Startup(IConfiguration configuration)
         {
@@ -21,7 +23,7 @@ namespace DouCalendarService.Telegram.WebAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var config = Configuration.GetSection("service").Get<ServiceConfig>();
+            var config = Configuration.GetSection(ServiceSectionName).Get<ServiceConfig>();
             services.AddSingleton(new DouCalendarMicroserviceConfig(config.MicroserviceUri));
 
             services.ConfigureCore();
@@ -33,9 +35,12 @@ namespace DouCalendarService.Telegram.WebAPI
             "");
 
             services.AddClientsServices();
-            services.AddHttpClientService(_httpClientName);
+            services.AddHttpClientService(HttpClientName);
 
             services.AddDouCalendarData();
+
+            var kafkaConfig = Configuration.GetSection(KafkaSectionName).Get<KafkaConfiguration>();
+            services.AddKafkaEventMessageProducer(kafkaConfig);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
