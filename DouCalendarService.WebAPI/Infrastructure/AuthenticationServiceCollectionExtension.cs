@@ -1,5 +1,4 @@
 ﻿using DouCalendarService.Service.Configuration;
-using DouCalendarService.Service.Security;
 using DouCalendarService.Service.Security.Encrypt;
 using DouCalendarService.Service.Security.Sign;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

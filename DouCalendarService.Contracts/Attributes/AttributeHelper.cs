@@ -1,6 +1,4 @@
-﻿using DouCalendarService.Contracts.Events;
-using DouCalendarService.Contracts.Types;
-using System;
+﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;

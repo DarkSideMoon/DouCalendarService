@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using DouCalendarService.Service.Configuration;
 using DouCalendarService.WebAPI.Infrastructure;
 using DouCalendarService.WebAPI.Middleware;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Serilog;
-using DouCalendarService.Service.Configuration;
 
 namespace DouCalendarService.WebAPI
 {

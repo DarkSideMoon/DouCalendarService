@@ -1,5 +1,4 @@
 ﻿using DouCalendarService.Parser.Model;
-using System;
 
 namespace DouCalendarService.Parser
 {
