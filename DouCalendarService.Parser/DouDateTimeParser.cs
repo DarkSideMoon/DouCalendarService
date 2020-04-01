@@ -15,7 +15,7 @@ namespace DouCalendarService.Parser
         private const char LargeDash = '—';
         private const char Space = ' ';
 
-        private static IReadOnlyDictionary<int, string[]> MonthMapper
+        private readonly static IReadOnlyDictionary<int, string[]> MonthMapper
             = new Dictionary<int, string[]>
             {
                 { 1, new[] { "january", "січня" } },
@@ -54,8 +54,8 @@ namespace DouCalendarService.Parser
 
             return new DouDateTimeRange
             {
-                StartDate = default(DateTime),
-                FinishDate = default(DateTime)
+                StartDate = default,
+                FinishDate = default
             };
         }
 

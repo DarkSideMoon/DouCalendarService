@@ -2,9 +2,10 @@
 using DouCalendarService.Telegram.WebAPI.Configuration;
 using DouCalendarService.Telegram.WebAPI.Infrastructure;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Serilog;
 
 namespace DouCalendarService.Telegram.WebAPI
 {
@@ -39,17 +40,22 @@ namespace DouCalendarService.Telegram.WebAPI
             services.AddDouCalendarData();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostApplicationLifetime applicationLifetime)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
             app.AddSupportedCultures();
 
             app.UseStaticFiles();
-            app.UseMvc();
+            app.UseRouting();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+
+            applicationLifetime.ApplicationStarted.Register(() =>
+            {
+                Log.Information("Telegram WebAPI has been started");
+            });
         }
     }
 }

@@ -2,9 +2,9 @@
 using DouCalendarService.WebAPI.Infrastructure;
 using DouCalendarService.WebAPI.Middleware;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Serilog;
 
 namespace DouCalendarService.WebAPI
@@ -22,8 +22,7 @@ namespace DouCalendarService.WebAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var serviceConfig = Configuration.GetSection("service")
-                .Get<ServiceConfig>();
+            var serviceConfig = Configuration.GetSection("service").Get<ServiceConfig>();
             services.AddSingleton(serviceConfig);
 
             services.ConfigureCore();
@@ -35,16 +34,21 @@ namespace DouCalendarService.WebAPI
             services.AddHealthChecksService();
         }
 
-        public void Configure(IApplicationBuilder app,
-            IApplicationLifetime applicationLifetime)
+        public void Configure(IApplicationBuilder app, IHostApplicationLifetime applicationLifetime)
         {
+            app.UseHttpsRedirection();
+            
             app.UseHealthChecks("/healthcheck");
             app.AddSwagger();
 
             app.UseMiddleware<ExceptionMiddleware>();
 
-            app.UseHttpsRedirection();
-            app.UseMvc();
+            app.UseRouting();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
 
             applicationLifetime.ApplicationStarted.Register(() =>
             {

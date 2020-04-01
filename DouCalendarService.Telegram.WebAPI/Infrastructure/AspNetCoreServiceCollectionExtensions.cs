@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http;
 
 namespace DouCalendarService.Telegram.WebAPI.Infrastructure
@@ -8,9 +7,7 @@ namespace DouCalendarService.Telegram.WebAPI.Infrastructure
     {
         public static IServiceCollection ConfigureCore(this IServiceCollection services)
         {
-            services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
+            services.AddControllers();
             return services;
         }
 

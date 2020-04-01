@@ -24,7 +24,6 @@ namespace DouCalendarService.WebAPI.Infrastructure
         {
             services.AddSwaggerGen(c =>
             {
-                c.DescribeAllEnumsAsStrings();
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
@@ -36,7 +35,6 @@ namespace DouCalendarService.WebAPI.Infrastructure
                         Url = new Uri("https://opensource.org/licenses/MIT"),
                     }
                 });
-                c.DescribeAllEnumsAsStrings();
                 c.IncludeXmlComments(XmlDocumentationPath);
             });
 

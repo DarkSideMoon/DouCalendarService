@@ -33,14 +33,10 @@ namespace DouCalendarService.Parser
         /// <returns></returns>
         public async Task LoadHtmlPage(string url)
         {
-            using (var httpClient = new HttpClient())
-            {
-                using (var response = await httpClient.GetAsync(url))
-                {
-                    var result = await response.Content.ReadAsStringAsync();
-                    _htmlDocument.LoadHtml(result);
-                }
-            }
+            using var httpClient = new HttpClient();
+            using var response = await httpClient.GetAsync(url);
+            var result = await response.Content.ReadAsStringAsync();
+            _htmlDocument.LoadHtml(result);
         }
 
         /// <summary>
