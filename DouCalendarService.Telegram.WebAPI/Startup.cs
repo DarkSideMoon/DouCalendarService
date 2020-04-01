@@ -11,7 +11,6 @@ namespace DouCalendarService.Telegram.WebAPI
     public class Startup
     {
         private const string HttpClientName = "httpService";
-        private const string KafkaSectionName = "kafka";
         private const string ServiceSectionName = "service";
 
         public Startup(IConfiguration configuration)
@@ -38,9 +37,6 @@ namespace DouCalendarService.Telegram.WebAPI
             services.AddHttpClientService(HttpClientName);
 
             services.AddDouCalendarData();
-
-            var kafkaConfig = Configuration.GetSection(KafkaSectionName).Get<KafkaConfiguration>();
-            services.AddKafkaEventMessageProducer(kafkaConfig);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

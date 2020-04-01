@@ -10,13 +10,10 @@ namespace DouCalendarService.Telegram.WebAPI.Infrastructure
         public static IServiceCollection AddDouCalendarData(this IServiceCollection services)
         {
             var douCalendarClient = services.BuildServiceProvider().GetService<IDouCalendarClient>();
-            var topics = 
-                Task.Run(async () => await douCalendarClient.GetTopicTypesAsync().ConfigureAwait(true)).Result;
-            var locations = 
-                Task.Run(async () => await douCalendarClient.GetLocationTypesAsync().ConfigureAwait(true)).Result;
+            var topics = Task.Run(async () => await douCalendarClient.GetTopicTypesAsync().ConfigureAwait(true)).Result;
+            var locations = Task.Run(async () => await douCalendarClient.GetLocationTypesAsync().ConfigureAwait(true)).Result;
 
             services.AddSingleton(new DouCalendarSetting(topics, locations, true));
-
             return services;
         }
     }
