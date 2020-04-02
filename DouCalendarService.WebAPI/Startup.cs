@@ -23,6 +23,7 @@ namespace DouCalendarService.WebAPI
             var serviceConfig = Configuration.GetSection("service").Get<ServiceConfig>();
             services.AddSingleton(serviceConfig);
 
+            services.AddHealthChecks();
             services.ConfigureCore();
 
             services.AddSwaggerService();

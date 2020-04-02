@@ -8,7 +8,7 @@ namespace DouCalendarService.Contracts.Events
         /// <summary>
         /// Standard index of div elements
         /// </summary>
-        public static readonly int IndexOfDiv = 3;
+        public static readonly int IndexOfDiv = 2;
 
         /// <summary>
         /// Sometimes web site add advertise header 

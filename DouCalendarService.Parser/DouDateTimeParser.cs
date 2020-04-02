@@ -11,6 +11,7 @@ namespace DouCalendarService.Parser
         private const string TimeRegex = "^(0[0-9]|1[0-9]|2[0-3]|[0-9]):[0-5][0-9]$";
         private const string TimeRangeRegex = @"^((?:[01]\d:[0-5][0-9]|2[0-3]:[0-5][0-9])(?:\s?)-(?:\s?)(?:[01]\d:[0-5][0-9]|2[0-3]:[0-5][0-9])(?:\s?,\s?)?)+$";
 
+        private const int MonthNameMinLenght = 4;
         private const char SmallDash = '-';
         private const char LargeDash = '—';
         private const char Space = ' ';
@@ -18,18 +19,18 @@ namespace DouCalendarService.Parser
         private readonly static IReadOnlyDictionary<int, string[]> MonthMapper
             = new Dictionary<int, string[]>
             {
-                { 1, new[] { "january", "січня" } },
-                { 2, new[] { "february", "лютого" } },
-                { 3, new[] { "march", "березня" } },
-                { 4, new[] { "april", "квітня" } },
-                { 5, new[] { "may", "травня" } },
-                { 6, new[] { "june", "червня" } },
-                { 7, new[] { "july", "липня" } },
-                { 8, new[] { "august", "серпня" } },
+                { 1, new[] { "january", "січня", "января" } },
+                { 2, new[] { "february", "лютого", "февраля" } },
+                { 3, new[] { "march", "березня", "марта" } },
+                { 4, new[] { "april", "квітня", "апреля" } },
+                { 5, new[] { "may", "травня", "мая" } },
+                { 6, new[] { "june", "червня", "июня" } },
+                { 7, new[] { "july", "липня", "июля" } },
+                { 8, new[] { "august", "серпня", "августа" } },
                 { 9, new[] { "september", "вересня", "сентября" } },
-                { 10, new[] { "october", "жовтня" } },
-                { 11, new[] { "november", "листопада" } },
-                { 12, new[] { "decemer", "грудня" } }
+                { 10, new[] { "october", "жовтня", "октября" } },
+                { 11, new[] { "november", "листопада" , "ноября" } },
+                { 12, new[] { "decemer", "грудня", "декабря" } }
             };
 
         public DouDateTimeRange Parse(string date, string time)
@@ -39,7 +40,7 @@ namespace DouCalendarService.Parser
             var douDateArray = date.Split(Space);
 
             int.TryParse(douDateArray[0], out var douDate);
-            var douMonthName = douDateArray[1];
+            var douMonthName = douDateArray.FirstOrDefault(x => x.Length > MonthNameMinLenght);
 
             var numberOfMonth = GetNumberOfMonthByName(douMonthName);
 
