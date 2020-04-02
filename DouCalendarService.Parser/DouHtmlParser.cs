@@ -20,9 +20,11 @@ namespace DouCalendarService.Parser
 
         private readonly HtmlDocument _htmlDocument;
         private readonly IDouDateTimeParser _douDateTimeParser;
+        private readonly HttpClient _httpClient;
 
-        public DouHtmlParser(IDouDateTimeParser douDateTimeParser)
+        public DouHtmlParser(HttpClient httpClient, IDouDateTimeParser douDateTimeParser)
         {
+            _httpClient = httpClient;
             _douDateTimeParser = douDateTimeParser;
             _htmlDocument = new HtmlDocument();
         }
@@ -33,8 +35,7 @@ namespace DouCalendarService.Parser
         /// <returns></returns>
         public async Task LoadHtmlPage(string url)
         {
-            using var httpClient = new HttpClient();
-            using var response = await httpClient.GetAsync(url);
+            using var response = await _httpClient.GetAsync(url);
             var result = await response.Content.ReadAsStringAsync();
             _htmlDocument.LoadHtml(result);
         }

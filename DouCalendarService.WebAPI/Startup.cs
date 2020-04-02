@@ -11,8 +11,6 @@ namespace DouCalendarService.WebAPI
 {
     public class Startup
     {
-        private const string _httpClientName = "httpService";
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -30,8 +28,7 @@ namespace DouCalendarService.WebAPI
             services.AddSwaggerService();
             services.AddClientsServices();
             services.AddJwtTokenAuthentication(serviceConfig);
-            services.AddHttpClientService(_httpClientName);
-            services.AddHealthChecksService();
+            services.AddHttpClientService();
         }
 
         public void Configure(IApplicationBuilder app, IHostApplicationLifetime applicationLifetime)

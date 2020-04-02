@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System.Net.Http;
+﻿using DouCalendarService.Telegram.Service.Service;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DouCalendarService.Telegram.WebAPI.Infrastructure
 {
@@ -11,12 +11,9 @@ namespace DouCalendarService.Telegram.WebAPI.Infrastructure
             return services;
         }
 
-        public static IServiceCollection AddHttpClientService(
-            this IServiceCollection services,
-            string httpClientName)
+        public static IServiceCollection AddHttpClientService(this IServiceCollection services)
         {
-            services.AddHttpClient(httpClientName);
-            services.AddTransient(x => x.GetRequiredService<IHttpClientFactory>().CreateClient(httpClientName));
+            services.AddHttpClient<IDouCalendarClient, DouCalendarClient>();
 
             return services;
         }

@@ -1,6 +1,5 @@
-﻿using DouCalendarService.WebAPI.HealthChecks;
+﻿using DouCalendarService.Parser;
 using Microsoft.Extensions.DependencyInjection;
-using System.Net.Http;
 
 namespace DouCalendarService.WebAPI.Infrastructure
 {
@@ -13,18 +12,9 @@ namespace DouCalendarService.WebAPI.Infrastructure
             return services;
         }
 
-        public static IServiceCollection AddHttpClientService(this IServiceCollection services, string httpClientName)
+        public static IServiceCollection AddHttpClientService(this IServiceCollection services)
         {
-            services.AddHttpClient(httpClientName);
-            services.AddTransient(x => x.GetRequiredService<IHttpClientFactory>().CreateClient(httpClientName));
-            
-            return services;
-        }
-
-        public static IServiceCollection AddHealthChecksService(this IServiceCollection services)
-        {
-            services.AddHealthChecks().AddCheck<DouSiteHealthCheck>("DouSite");
-
+            services.AddHttpClient<IDouHtmlParser, DouHtmlParser>();
             return services;
         }
     }
