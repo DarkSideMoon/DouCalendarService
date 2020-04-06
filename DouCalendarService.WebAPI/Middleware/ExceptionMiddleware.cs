@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using DouCalendarService.Contracts.Common;
 using DouCalendarService.Contracts.Exceptions;
+using DouCalendarService.Parser.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -24,10 +25,13 @@ namespace DouCalendarService.WebAPI.Middleware
             {
                 await _next(httpContext);
             }
-            catch (EventNotFoundException ex)
+            catch (ElementCouldNotParseException ex)
             {
-                await HandleExceptionAsync(httpContext, ex, ex.Message, StatusCodes.Status404NotFound)
-                    .ConfigureAwait(false);
+                await HandleExceptionAsync(httpContext, ex, ex.Message, StatusCodes.Status501NotImplemented).ConfigureAwait(false);
+            }
+            catch (Exception ex) when (ex is PageCouldNotLoadException || ex is EventNotFoundException)
+            {
+                await HandleExceptionAsync(httpContext, ex, ex.Message, StatusCodes.Status404NotFound).ConfigureAwait(false);
             }
             catch (Exception ex)
             {

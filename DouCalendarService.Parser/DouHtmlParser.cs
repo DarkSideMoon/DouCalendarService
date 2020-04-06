@@ -1,4 +1,5 @@
-﻿using DouCalendarService.Parser.Model;
+﻿using DouCalendarService.Parser.Exceptions;
+using DouCalendarService.Parser.Model;
 using HtmlAgilityPack;
 using System.Linq;
 using System.Net.Http;
@@ -8,7 +9,18 @@ namespace DouCalendarService.Parser
 {
     public class DouHtmlParser : IDouHtmlParser
     {
-        private const string EventsCountXPath = "/html/body/div[1]/div[4]/div/div[2]/div/div/div[1]";
+        /// <summary>
+        /// Standard index of div elements
+        /// </summary>
+        public static readonly int IndexOfDiv = 3;
+
+        /// <summary>
+        /// Sometimes web site add advertise header 
+        /// As a result, standard divs + 1 to get div of elements
+        /// </summary>
+        public static readonly int IndexOfDivWithHeader = IndexOfDiv + 1;
+
+        private const string EventsCountXPath = "/html/body/div[1]/div[{0}]/div/div[2]/div/div/div[1]";
         private const string AdvertiseTopHeader = "//*[@id=\"topinfo\"]";
         private const string ArticleNode = "article";
         private const string ChildHrefNode = "a";
@@ -35,9 +47,14 @@ namespace DouCalendarService.Parser
         /// <returns></returns>
         public async Task LoadHtmlPage(string url)
         {
-            using var response = await _httpClient.GetAsync(url);
-            var result = await response.Content.ReadAsStringAsync();
-            _htmlDocument.LoadHtml(result);
+            using (var response = await _httpClient.GetAsync(url))
+            {
+                if (!response.IsSuccessStatusCode)
+                    throw new PageCouldNotLoadException($"Could not load page. Status code: {response.StatusCode.ToString()}");
+
+                var result = await response.Content.ReadAsStringAsync();
+                _htmlDocument.LoadHtml(result);
+            }
         }
 
         /// <summary>
@@ -46,10 +63,11 @@ namespace DouCalendarService.Parser
         /// <returns></returns>
         public int GetEventsCount()
         {
-            var element = _htmlDocument.DocumentNode
-                .SelectNodes(EventsCountXPath)
-                .FirstOrDefault();
+            var xpath = IsHasAdvertiseHeader() ? 
+                string.Format(EventsCountXPath, IndexOfDivWithHeader) : 
+                string.Format(EventsCountXPath, IndexOfDiv);
 
+            var element = GetSafetyNode(xpath, nameof(GetEventsCount));
             return element.SelectNodes(ArticleNode).Count;
         }
 
@@ -80,36 +98,28 @@ namespace DouCalendarService.Parser
         /// </summary>
         /// <param name="xpath"></param>
         /// <returns></returns>
-        public string GetValue(string xpath) => 
-            _htmlDocument.DocumentNode
-            .SelectNodes(xpath)
-            ?.FirstOrDefault()
-            ?.InnerText.Trim();
+        public string GetValue(string xpath) => GetSafetyNode(xpath, nameof(GetValue)).InnerText.Trim();
 
         /// <summary>
         /// Get href value of link
         /// </summary>
         /// <param name="xpath"></param>
         /// <returns></returns>
-        public string GetHrefValue(string xpath) => 
-            _htmlDocument.DocumentNode
-            .SelectNodes(xpath)
-            ?.FirstOrDefault()
-            .Attributes[HrefNode]
-            ?.Value;
+        public string GetHrefValue(string xpath) => GetSafetyNode(xpath, nameof(GetHrefValue)).Attributes[HrefNode]?.Value;
 
         /// <summary>
         /// Get image path
         /// </summary>
         /// <param name="xpath"></param>
         /// <returns></returns>
-        public string GetImage(string xpath) => 
-            _htmlDocument.DocumentNode
-            .SelectNodes(xpath)
-            ?.FirstOrDefault()
-            .Attributes[ImageNode]
-            ?.Value;
+        public string GetImage(string xpath) => GetSafetyNode(xpath, nameof(GetImage)).Attributes[ImageNode]?.Value;
 
+
+        /// <summary>
+        /// Get id value path
+        /// </summary>
+        /// <param name="xpath"></param>
+        /// <returns></returns>
         public string GetIdValue(string xpath)
         {
             var url = GetHrefValue(xpath);
@@ -119,32 +129,25 @@ namespace DouCalendarService.Parser
                 .LastOrDefault();
         }
 
-        public string GetParsedUrl(string xpath) =>
-            _htmlDocument.DocumentNode
-            .SelectNodes(xpath)
-            ?.FirstOrDefault()
-            .Attributes[DataUrlNode]
-            ?.Value;
+        public string GetParsedUrl(string xpath) => GetSafetyNode(xpath, nameof(GetParsedUrl)).Attributes[DataUrlNode]?.Value;
 
         public string GetCountOfEventVisitors(string xpath)
+        {
+            var element = GetSafetyNode(xpath, nameof(GetCountOfEventVisitors));
+            return (element.SelectNodes(DivNode).Count - 1).ToString();
+        }
+
+        public DouDateTimeRange GetDouDateTime(string date, string time) => _douDateTimeParser.Parse(date, time);
+
+        public bool IsHasAdvertiseHeader() =>  _htmlDocument.DocumentNode.SelectNodes(AdvertiseTopHeader)?.FirstOrDefault() != null;
+
+        private HtmlNode GetSafetyNode(string xpath, string nameOfElemnt)
         {
             var element = _htmlDocument.DocumentNode
                 .SelectNodes(xpath)
                 ?.FirstOrDefault();
 
-            return (element?.SelectNodes(DivNode).Count - 1).ToString();
-        }
-
-        public DouDateTimeRange GetDouDateTime(string date, string time) => 
-            _douDateTimeParser.Parse(date, time);
-
-        public bool IsHasAdvertiseHeader()
-        {
-            var element = _htmlDocument.DocumentNode
-                .SelectNodes(AdvertiseTopHeader)
-                ?.FirstOrDefault();
-
-            return element != null;
+            return element ?? throw new ElementCouldNotParseException($"Could not find element. Element {nameOfElemnt}");
         }
     }
 }

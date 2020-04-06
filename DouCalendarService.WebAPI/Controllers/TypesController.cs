@@ -1,10 +1,12 @@
 ﻿using DouCalendarService.Contracts.Types;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 
 namespace DouCalendarService.WebAPI.Controllers
 {
+    //[Authorize]
     [ApiController]
     [Route("types")]
     [Produces("application/json")]

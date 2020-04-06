@@ -1,5 +1,6 @@
 ﻿using DouCalendarService.Parser;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json.Converters;
 
 namespace DouCalendarService.WebAPI.Infrastructure
 {
@@ -7,7 +8,9 @@ namespace DouCalendarService.WebAPI.Infrastructure
     {
         public static IServiceCollection ConfigureCore(this IServiceCollection services)
         {
-            services.AddControllers();
+            services
+                .AddControllers()
+                .AddNewtonsoftJson(options => options.SerializerSettings.Converters.Add(new StringEnumConverter()));
 
             return services;
         }

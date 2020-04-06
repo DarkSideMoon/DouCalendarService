@@ -2,12 +2,14 @@
 using DouCalendarService.Contracts.Events;
 using DouCalendarService.Contracts.Types;
 using DouCalendarService.Service.Dou;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DouCalendarService.WebAPI.Controllers
 {
+    //[Authorize]
     [ApiController]
     [Route("event")]
     [Produces("application/json")]
