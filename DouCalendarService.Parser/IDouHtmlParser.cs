@@ -7,7 +7,7 @@ namespace DouCalendarService.Parser
     {
         Task LoadHtmlPage(string url);
 
-        int GetEventsCount();
+        int GetEventsCount(int indexOfDivElement);
 
         string GetTags(string xpath);
 
@@ -22,6 +22,10 @@ namespace DouCalendarService.Parser
         string GetParsedUrl(string xpath);
 
         string GetCountOfEventVisitors(string xpath);
+
+        string GetCountOfShortEventVisitors(string xpath);
+
+        string GetPrice(string xpath);
 
         DouDateTimeRange GetDouDateTime(string date, string time);
 

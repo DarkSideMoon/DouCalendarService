@@ -132,7 +132,8 @@ namespace DouCalendarService.Service.Dou
         {
             var shortEvents = new List<ShortEvent>();
 
-            var eventsCount = _parser.GetEventsCount();
+            int indexOfDivElement = GetIndexOfDivElementForShortEvent();
+            var eventsCount = _parser.GetEventsCount(indexOfDivElement);
             for (int i = 1; i <= eventsCount; i++)
             {
                 var shortEvent = GetShortEvent(i);
@@ -149,18 +150,20 @@ namespace DouCalendarService.Service.Dou
         /// <returns></returns>
         private ShortEvent GetShortEvent(int eventIndex)
         {
+            int indexOfDivElement = GetIndexOfDivElementForShortEvent();
+
             return new ShortEvent
             {
-                Id = _parser.GetIdValue(string.Format(GetXPath<ShortEvent>(x => x.Url), eventIndex)),
-                Url = _parser.GetHrefValue(string.Format(GetXPath<ShortEvent>(x => x.Url), eventIndex)),
-                Name = _parser.GetValue(string.Format(GetXPath<ShortEvent>(x => x.Name), eventIndex)),
-                Place = _parser.GetValue(string.Format(GetXPath<ShortEvent>(x => x.Place), eventIndex)),
-                Image = _parser.GetImage(string.Format(GetXPath<ShortEvent>(x => x.Image), eventIndex)),
-                Date = _parser.GetValue(string.Format(GetXPath<ShortEvent>(x => x.Date), eventIndex)),
-                Description = _parser.GetValue(string.Format(GetXPath<ShortEvent>(x => x.Description), eventIndex)),
-                CountOfVisitors = _parser.GetValue(string.Format(GetXPath<ShortEvent>(x => x.CountOfVisitors), eventIndex)),
-                Price = _parser.GetValue(string.Format(GetXPath<ShortEvent>(x => x.Price), eventIndex)),
-                Topics = _parser.GetTags(string.Format(GetXPath<ShortEvent>(x => x.Topics), eventIndex))
+                Id = _parser.GetIdValue(string.Format(GetXPath<ShortEvent>(x => x.Url), eventIndex, indexOfDivElement)),
+                Url = _parser.GetHrefValue(string.Format(GetXPath<ShortEvent>(x => x.Url), eventIndex, indexOfDivElement)),
+                Name = _parser.GetValue(string.Format(GetXPath<ShortEvent>(x => x.Name), eventIndex, indexOfDivElement)),
+                Place = _parser.GetValue(string.Format(GetXPath<ShortEvent>(x => x.Place), eventIndex, indexOfDivElement)),
+                Image = _parser.GetImage(string.Format(GetXPath<ShortEvent>(x => x.Image), eventIndex, indexOfDivElement)),
+                Date = _parser.GetValue(string.Format(GetXPath<ShortEvent>(x => x.Date), eventIndex, indexOfDivElement)),
+                Description = _parser.GetValue(string.Format(GetXPath<ShortEvent>(x => x.Description), eventIndex, indexOfDivElement)),
+                CountOfVisitors = _parser.GetCountOfShortEventVisitors(string.Format(GetXPath<ShortEvent>(x => x.CountOfVisitors), eventIndex, indexOfDivElement)),
+                Price = _parser.GetPrice(string.Format(GetXPath<ShortEvent>(x => x.Price), eventIndex, indexOfDivElement)),
+                Topics = _parser.GetTags(string.Format(GetXPath<ShortEvent>(x => x.Topics), eventIndex, indexOfDivElement))
             };
         }
 
@@ -170,10 +173,7 @@ namespace DouCalendarService.Service.Dou
         /// <returns></returns>
         private Event GetEvent()
         {
-            var indexOfDivElement = Event.IndexOfDiv;
-
-            if (_parser.IsHasAdvertiseHeader())
-                indexOfDivElement = Event.IndexOfDivWithHeader;
+            var indexOfDivElement = GetIndexOfDivElementForEvent();
 
             var date = _parser.GetValue(string.Format(GetXPath<Event>(x => x.Date), indexOfDivElement));
             var time = _parser.GetValue(string.Format(GetXPath<Event>(x => x.Time), indexOfDivElement));
@@ -228,6 +228,35 @@ namespace DouCalendarService.Service.Dou
         private static int GetTakeCount(int? count)
         {
             return count ?? DefaultPageRecordsCount;
+        }
+
+        /// <summary>
+        /// Get index of div element in short events
+        /// </summary>
+        /// <returns></returns>
+        private int GetIndexOfDivElementForShortEvent()
+        {
+            // For short events need to +1
+            var indexOfDivElement = Event.IndexOfDiv + 1;
+
+            if (_parser.IsHasAdvertiseHeader())
+                indexOfDivElement = Event.IndexOfDivWithHeader;
+
+            return indexOfDivElement;
+        }
+
+        /// <summary>
+        /// Get index of div element in events
+        /// </summary>
+        /// <returns></returns>
+        private int GetIndexOfDivElementForEvent()
+        {
+            var indexOfDivElement = Event.IndexOfDiv;
+
+            if (_parser.IsHasAdvertiseHeader())
+                indexOfDivElement = Event.IndexOfDivWithHeader;
+
+            return indexOfDivElement;
         }
     }
 }

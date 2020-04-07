@@ -3,23 +3,14 @@ using DouCalendarService.Parser.Model;
 using HtmlAgilityPack;
 using System.Linq;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace DouCalendarService.Parser
 {
     public class DouHtmlParser : IDouHtmlParser
     {
-        /// <summary>
-        /// Standard index of div elements
-        /// </summary>
-        public static readonly int IndexOfDiv = 3;
-
-        /// <summary>
-        /// Sometimes web site add advertise header 
-        /// As a result, standard divs + 1 to get div of elements
-        /// </summary>
-        public static readonly int IndexOfDivWithHeader = IndexOfDiv + 1;
-
+        private const string RegexNumberPattern = @"\d+";
         private const string EventsCountXPath = "/html/body/div[1]/div[{0}]/div/div[2]/div/div/div[1]";
         private const string AdvertiseTopHeader = "//*[@id=\"topinfo\"]";
         private const string ArticleNode = "article";
@@ -42,6 +33,33 @@ namespace DouCalendarService.Parser
         }
 
         /// <summary>
+        /// Get text value
+        /// </summary>
+        /// <param name="xpath"></param>
+        /// <returns></returns>
+        public string GetValue(string xpath) => GetSafetyNode(xpath, nameof(GetValue)).InnerText.Trim();
+
+        /// <summary>
+        /// Get href value of link
+        /// </summary>
+        /// <param name="xpath"></param>
+        /// <returns></returns>
+        public string GetHrefValue(string xpath) => GetSafetyNode(xpath, nameof(GetHrefValue)).Attributes[HrefNode]?.Value;
+
+        /// <summary>
+        /// Get image path
+        /// </summary>
+        /// <param name="xpath"></param>
+        /// <returns></returns>
+        public string GetImage(string xpath) => GetSafetyNode(xpath, nameof(GetImage)).Attributes[ImageNode]?.Value;
+
+        public string GetParsedUrl(string xpath) => GetSafetyNode(xpath, nameof(GetParsedUrl)).Attributes[DataUrlNode]?.Value;
+
+        public DouDateTimeRange GetDouDateTime(string date, string time) => _douDateTimeParser.Parse(date, time);
+
+        public bool IsHasAdvertiseHeader() => _htmlDocument.DocumentNode.SelectNodes(AdvertiseTopHeader)?.FirstOrDefault() != null;
+
+        /// <summary>
         /// Load html page to HtmlDocument
         /// </summary>
         /// <returns></returns>
@@ -61,11 +79,9 @@ namespace DouCalendarService.Parser
         /// Get count of events on page
         /// </summary>
         /// <returns></returns>
-        public int GetEventsCount()
+        public int GetEventsCount(int indexOfDivElement)
         {
-            var xpath = IsHasAdvertiseHeader() ? 
-                string.Format(EventsCountXPath, IndexOfDivWithHeader) : 
-                string.Format(EventsCountXPath, IndexOfDiv);
+            var xpath = string.Format(EventsCountXPath, indexOfDivElement);
 
             var element = GetSafetyNode(xpath, nameof(GetEventsCount));
             return element.SelectNodes(ArticleNode).Count;
@@ -94,28 +110,6 @@ namespace DouCalendarService.Parser
         }
 
         /// <summary>
-        /// Get text value
-        /// </summary>
-        /// <param name="xpath"></param>
-        /// <returns></returns>
-        public string GetValue(string xpath) => GetSafetyNode(xpath, nameof(GetValue)).InnerText.Trim();
-
-        /// <summary>
-        /// Get href value of link
-        /// </summary>
-        /// <param name="xpath"></param>
-        /// <returns></returns>
-        public string GetHrefValue(string xpath) => GetSafetyNode(xpath, nameof(GetHrefValue)).Attributes[HrefNode]?.Value;
-
-        /// <summary>
-        /// Get image path
-        /// </summary>
-        /// <param name="xpath"></param>
-        /// <returns></returns>
-        public string GetImage(string xpath) => GetSafetyNode(xpath, nameof(GetImage)).Attributes[ImageNode]?.Value;
-
-
-        /// <summary>
         /// Get id value path
         /// </summary>
         /// <param name="xpath"></param>
@@ -129,17 +123,39 @@ namespace DouCalendarService.Parser
                 .LastOrDefault();
         }
 
-        public string GetParsedUrl(string xpath) => GetSafetyNode(xpath, nameof(GetParsedUrl)).Attributes[DataUrlNode]?.Value;
-
         public string GetCountOfEventVisitors(string xpath)
         {
-            var element = GetSafetyNode(xpath, nameof(GetCountOfEventVisitors));
-            return (element.SelectNodes(DivNode).Count - 1).ToString();
+            var element = _htmlDocument.DocumentNode
+                .SelectNodes(xpath)
+                ?.FirstOrDefault();
+
+            return (element?.SelectNodes(DivNode)?.Count - 1).ToString();
         }
 
-        public DouDateTimeRange GetDouDateTime(string date, string time) => _douDateTimeParser.Parse(date, time);
+        public string GetCountOfShortEventVisitors(string xpath)
+        {
+            var element = _htmlDocument.DocumentNode
+                .SelectNodes(xpath)
+                ?.FirstOrDefault();
 
-        public bool IsHasAdvertiseHeader() =>  _htmlDocument.DocumentNode.SelectNodes(AdvertiseTopHeader)?.FirstOrDefault() != null;
+            if (element == null)
+                return string.Empty;
+
+            var countOfVisitorsMatch = new Regex(RegexNumberPattern).Match(element?.InnerText);
+            return countOfVisitorsMatch.Success ? countOfVisitorsMatch.Value : string.Empty;
+        }
+
+        public string GetPrice(string xpath)
+        {
+            var element = _htmlDocument.DocumentNode
+                .SelectNodes(xpath)
+                ?.FirstOrDefault();
+
+            if (element == null)
+                return string.Empty;
+
+            return element.InnerText.Trim();
+        }
 
         private HtmlNode GetSafetyNode(string xpath, string nameOfElemnt)
         {
@@ -147,7 +163,7 @@ namespace DouCalendarService.Parser
                 .SelectNodes(xpath)
                 ?.FirstOrDefault();
 
-            return element ?? throw new ElementCouldNotParseException($"Could not find element. Element {nameOfElemnt}");
+            return element ?? throw new ElementCouldNotParseException($"Could not find element. Element {nameOfElemnt}. XPath {xpath}");
         }
     }
 }
