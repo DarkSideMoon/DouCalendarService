@@ -25,11 +25,11 @@ namespace DouCalendarService.Service.Dou
 
         public DouService(IDouHtmlParser parser, 
             IDouCalendarUrlBuilder urlBuilder,
-            IGoogleCalendarUrlBuilder googleUrlBuilde)
+            IGoogleCalendarUrlBuilder googleUrlBuilder)
         {
             _parser = parser;
             _urlBuilder = urlBuilder;
-            _googleUrlBuilder = googleUrlBuilde;
+            _googleUrlBuilder = googleUrlBuilder;
         }
 
         /// <summary>
