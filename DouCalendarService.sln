@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DouCalendarService.Contract
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DouCalendarService.Telegram.WebAPI", "src\DouCalendarService.Telegram.WebAPI\DouCalendarService.Telegram.WebAPI.csproj", "{BFAF64F4-CA44-44D7-9C0B-AF13D159A0BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DouCalendarService.Telegram.Service", "src\DouCalendarService.Telegram.Service\DouCalendarService.Telegram.Service.csproj", "{D81B3C3E-6467-4A85-9513-26DD2449E58D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DouCalendarService.Telegram.Service", "src\DouCalendarService.Telegram.Service\DouCalendarService.Telegram.Service.csproj", "{D81B3C3E-6467-4A85-9513-26DD2449E58D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{572A3BAE-A7C6-4343-96E0-255A388C9A48}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,6 +50,14 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CBCCE3EB-273B-48F3-90AC-48EC9F8E738F} = {572A3BAE-A7C6-4343-96E0-255A388C9A48}
+		{58F0775D-92C8-45D4-9351-C81698955304} = {572A3BAE-A7C6-4343-96E0-255A388C9A48}
+		{E8EA478E-EC58-4646-8E55-FDFE0357C889} = {572A3BAE-A7C6-4343-96E0-255A388C9A48}
+		{5A17918D-C5F5-43C0-AE4B-F8271A4C45E9} = {572A3BAE-A7C6-4343-96E0-255A388C9A48}
+		{BFAF64F4-CA44-44D7-9C0B-AF13D159A0BE} = {572A3BAE-A7C6-4343-96E0-255A388C9A48}
+		{D81B3C3E-6467-4A85-9513-26DD2449E58D} = {572A3BAE-A7C6-4343-96E0-255A388C9A48}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {29CB8C4E-D349-47BA-97E6-7EB687C285EA}
