@@ -39,7 +39,11 @@ namespace DouCalendarService.Parser
 
             var douDateArray = date.Split(Space);
 
-            int.TryParse(douDateArray[0], out var douDate);
+            var isParsed = int.TryParse(douDateArray[0], out var douDate);
+
+            if(!isParsed)
+                return new DouDateTimeRange();
+
             var douMonthName = douDateArray.FirstOrDefault(x => x.Length > MonthNameMinLenght);
 
             var numberOfMonth = GetNumberOfMonthByName(douMonthName);
@@ -53,11 +57,7 @@ namespace DouCalendarService.Parser
             if (timeRangeMatch.Success)
                 return ParseDateTimeRange(timeRangeMatch.Value, numberOfMonth, douDate);
 
-            return new DouDateTimeRange
-            {
-                StartDate = default,
-                FinishDate = default
-            };
+            return new DouDateTimeRange();
         }
 
         private static DouDateTimeRange ParseDateTimeSame(string value, int numberOfMonth, int douDate)
@@ -86,8 +86,8 @@ namespace DouCalendarService.Parser
         {
             var douTimeArray = value.Split(':');
 
-            int.TryParse(douTimeArray[0], out var hourTime);
-            int.TryParse(douTimeArray[1], out var minuteTime);
+            var hourTime = int.Parse(douTimeArray[0]);
+            var minuteTime = int.Parse(douTimeArray[1]);
 
             var parsedDate = 
                 new DateTime(DateTime.Now.Year, numberOfMonth, douDate, hourTime, minuteTime, 0);

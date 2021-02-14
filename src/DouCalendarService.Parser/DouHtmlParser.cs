@@ -68,7 +68,7 @@ namespace DouCalendarService.Parser
             using (var response = await _httpClient.GetAsync(url))
             {
                 if (!response.IsSuccessStatusCode)
-                    throw new PageCouldNotLoadException($"Could not load page. Status code: {response.StatusCode.ToString()}");
+                    throw new PageCouldNotLoadException($"Could not load page. Status code: {response.StatusCode}");
 
                 var result = await response.Content.ReadAsStringAsync();
                 _htmlDocument.LoadHtml(result);

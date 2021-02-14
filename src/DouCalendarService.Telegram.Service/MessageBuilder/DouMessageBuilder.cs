@@ -57,7 +57,7 @@ namespace DouCalendarService.Telegram.Service.MessageBuilder
 
         public IDouMessageBuilder NewLine()
         {
-            _stringBuilder.Append("\n");
+            _stringBuilder.Append('\n');
             return this;
         }
 

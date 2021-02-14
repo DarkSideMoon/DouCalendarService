@@ -20,12 +20,10 @@ namespace DouCalendarService.Telegram.WebAPI.Localization
                 var currentCultureName = currentCulurute.Name;
                 string textValue = string.Empty;
 
-                if(resources.ContainsKey(currentCultureName))
+                if (resources.ContainsKey(currentCultureName) 
+                    && resources[currentCultureName].ContainsKey(name))
                 {
-                    if (resources[currentCultureName].ContainsKey(name))
-                    {
-                        textValue = resources[currentCultureName][name];
-                    }
+                    textValue = resources[currentCultureName][name];
                 }
 
                 return new LocalizedString(name, textValue);
