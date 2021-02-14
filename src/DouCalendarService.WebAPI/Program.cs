@@ -23,6 +23,7 @@ namespace DouCalendarService.WebAPI
 
             Log.Logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(configiration)
+                .Enrich.FromLogContext()
                 .CreateLogger();
 
             webHost.Run();
