@@ -4,52 +4,23 @@ namespace DouCalendarService.Telegram.Service.Buttons
 {
     public class InlineButtonsBuilder : IInlineButtonsBuilder
     {
-        public InlineKeyboardMarkup BuildMainMenu()
-        {
-            var keys = new[]
+        public InlineKeyboardMarkup BuildMainMenu() => new InlineKeyboardMarkup(new[]
             {
                 new[]
                 {
-                    new InlineKeyboardButton
-                    {
-                        Text = "📅 За датою",
-                        CallbackData = "EventByDate"
-                    },
-                    new InlineKeyboardButton
-                    {
-                        Text = "🌎 За локацією",
-                        CallbackData = "EventByLocation"
-                    }
+                    InlineKeyboardButton.WithCallbackData("📅 За датою", "EventByDate"),
+                    InlineKeyboardButton.WithCallbackData("🌎 За локацією", "EventByLocation"),
                 },
                 new[]
                 {
-                    new InlineKeyboardButton
-                    {
-                        Text = "📗 За темою",
-                        CallbackData = "EventByTopic"
-                    },
-                    new InlineKeyboardButton
-                    {
-                        Text = "📆 Додати до календарю",
-                        CallbackData = "AddEventToGoogleCalendar"
-                    }
+                    InlineKeyboardButton.WithCallbackData("📗 За темою", "EventByTopic"),
+                    InlineKeyboardButton.WithCallbackData("📆 Додати до календарю", "AddEventToGoogleCalendar"),
                 },
                 new[]
                 {
-                    new InlineKeyboardButton
-                    {
-                        Text = "⚙️ Про розробку",
-                        CallbackData = "Develop"
-                    },
-                    new InlineKeyboardButton
-                    {
-                        Text = "📊 Статус",
-                        CallbackData = "Status"
-                    }
+                    InlineKeyboardButton.WithCallbackData("⚙️ Про розробку", "Develop"),
+                    InlineKeyboardButton.WithCallbackData("📊 Статус", "Status"),
                 }
-            };
-
-            return new InlineKeyboardMarkup(keys);
-        }
+            });
     }
 }
